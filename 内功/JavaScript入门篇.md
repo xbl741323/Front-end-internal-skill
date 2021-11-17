@@ -86,3 +86,10 @@ JavaScript 提供if结构和switch和三元运算符结构，完成条件判断�
 ```
 
 ### 数据类型
+JavaScript 语言的每一个值，都属于某一种数据类型。JavaScript 的数据类型，共有六种。（ES6 又新增了第七种 Symbol 类型的值）
++ 数值（number）：整数和小数（比如1和3.14）。
++ 字符串（string）：文本（比如Hello World）。
++ 布尔值（boolean）：表示真伪的两个特殊值，即true（真）和false（假）。
++ undefined：表示“未定义”或不存在，即由于目前没有定义，所以此处暂时没有任何值。
++ null：表示空值，即此处的值为空。
++ 对象（object）：各种值组成的集合。
