@@ -232,15 +232,16 @@ for (var i in obj) {
 }
 ```
 + JavaScript 中 call()、apply()、bind()都是用来重定义 this 这个对象的！
++ ![image](https://user-images.githubusercontent.com/49593119/142185080-2dc660e2-196a-4895-9f2e-c11eb50a2e0a.png)
 ```
-call 、bind 、 apply 这三个函数的第一个参数都是 this 的指向对象，第二个参数差别就来了：
-call的参数是直接放进去的，第二第三第n个参数全都用逗号分隔，直接放到后面 obj.myFun.call(db,'成都', ... ,'string' )；
-apply的所有参数都必须放在一个数组里面传进去 obj.myFun.apply(db,['成都', ..., 'string' ]);
-bind除了返回是函数以外，它的参数和call 一样。
-![image](https://user-images.githubusercontent.com/49593119/142184963-7e38c47a-0fdd-45e7-8042-11b3a329b7a5.png)
-
 obj.myFun.call(db,'成都','上海')；　　　　 // 德玛 年龄 99  来自 成都去往上海
 obj.myFun.apply(db,['成都','上海']);      // 德玛 年龄 99  来自 成都去往上海  
 obj.myFun.bind(db,'成都','上海')();       // 德玛 年龄 99  来自 成都去往上海
 obj.myFun.bind(db,['成都','上海'])();　　 // 德玛 年龄 99  来自 成都, 上海去往 undefined
+
+call 、bind 、 apply 这三个函数的第一个参数都是 this 的指向对象，第二个参数差别就来了：
+call的参数是直接放进去的，第二第三第n个参数全都用逗号分隔，直接放到后面 obj.myFun.call(db,'成都', ... ,'string' )；
+apply的所有参数都必须放在一个数组里面传进去 obj.myFun.apply(db,['成都', ..., 'string' ]);
+bind除了返回是函数以外，它的参数和call 一样。
+
 ```
