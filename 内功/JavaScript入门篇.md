@@ -84,3 +84,5 @@ JavaScript 提供if结构和switch和三元运算符结构，完成条件判断�
 4、break 语句和 continue 语句：break语句用于跳出代码块或循环。continue语句用于立即终止本轮循环，返回循环结构的头部，开始下一轮循环。
 5、标签（label）：JavaScript 语言允许，语句的前面有标签（label），相当于定位符，用于跳转到程序的任意位置，
 ```
+
+### 数据类型
