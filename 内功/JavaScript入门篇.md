@@ -61,3 +61,13 @@ JavaScript 有一些保留字，不能用作标识符：arguments、break、case
 x = 1; <!-- x = 2;
 --> x = 3;
 ```
++ 5 区块
+```
+JavaScript 使用大括号，将多个相关的语句组合在一起，称为“区块”（block）。
+{
+  var a = 1;
+}
+a // 1
+对于var命令来说，JavaScript 的区块不构成单独的作用域（scope）。
+上面代码在区块内部，使用var命令声明并赋值了变量a，然后在区块外部，变量a依然有效，区块对于var命令不构成单独的作用域，与不使用区块的情况没有任何区别。在 JavaScript 语言中，单独使用区块并不常见，区块往往用来构成其他更复杂的语法结构，比如for、if、while、function等。
+```
