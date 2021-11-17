@@ -86,6 +86,7 @@ JavaScript 提供if结构和switch和三元运算符结构，完成条件判断�
 ```
 
 ### 数据类型
+#### 1、简介
 JavaScript 语言的每一个值，都属于某一种数据类型。JavaScript 的数据类型，共有六种。（ES6 又新增了第七种 Symbol 类型的值）
 + 数值（number）：整数和小数（比如1和3.14）。
 + 字符串（string）：文本（比如Hello World）。
@@ -98,3 +99,8 @@ JavaScript 语言的每一个值，都属于某一种数据类型。JavaScript �
 + 狭义的对象（object）
 + 数组（array）
 + 函数（function）
+
+#### 2、typeof 运算符
++ typeof运算符（运算符可以返回一个值的数据类型。但是不能区分数组和对象，typeof运算符对数组也返回对象类型，注意：typeof null // "object"，null的类型是object）
++ instanceof运算符（instanceof运算符可以区分数组和对象）
++ Object.prototype.toString方法
