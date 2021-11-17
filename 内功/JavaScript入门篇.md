@@ -148,3 +148,4 @@ JavaScript 内部，所有数字都是以64位浮点数形式储存，即使整�
 (0.3 - 0.2) === (0.2 - 0.1)
 // false
 ```
+JavaScript 提供Number对象的MAX_VALUE和MIN_VALUE属性，返回可以表示的具体的最大值和最小值。
