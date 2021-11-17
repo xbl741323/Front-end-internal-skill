@@ -170,3 +170,64 @@ s[4] // "o"
 'hello'[1] // "e"
 ```
 + length属性返回字符串的长度，该属性也是无法改变的。
+
+### 7、对象
+对象（object）是 JavaScript 语言的核心概念，也是最重要的数据类型。
+什么是对象？简单说，对象就是一组“键值对”（key-value）的集合，是一种无序的复合数据集合。
++ 如果不同的变量名指向同一个对象，那么它们都是这个对象的引用，也就是说指向同一个内存地址，修改其中一个变量，会影响到其他所有变量。
++ 读取对象的属性，有两种方法，一种是使用点运算符，还有一种是使用方括号运算符。
+```
+var obj = {
+  p: 'Hello World'
+};
+obj.p // "Hello World"
+obj['p'] // "Hello World"
+```
++ 点运算符和方括号运算符，不仅可以用来读取值，还可以用来赋值。
+```
+var obj = {};
+obj.foo = 'Hello';
+obj['bar'] = 'World';
+```
++ JavaScript 允许属性的“后绑定”，也就是说，你可以在任意时刻新增属性，没必要在定义对象的时候，就定义好属性。
+```
+var obj = { p: 1 };
+// 等价于
+var obj = {};
+obj.p = 1;
+```
++ 查看一个对象本身的所有属性，可以使用Object.keys方法。
+```
+var obj = {
+  key1: 1,
+  key2: 2
+};
+Object.keys(obj);
+// ['key1', 'key2']
+```
++ delete命令用于删除对象的属性，删除成功后返回true,只有一种情况，delete命令会返回false，那就是该属性存在，且不得删除。
+```
+var obj = Object.defineProperty({}, 'p', {
+  value: 123,
+  configurable: false
+});
+obj.p // 123
+delete obj.p // false
+```
++ in运算符用于检查对象是否包含某个属性,n运算符的一个问题是，它不能识别哪些属性是对象自身的，哪些属性是继承的。这时，可以使用对象的hasOwnProperty方法判断一下，是否为对象自身的属性。
+```
+var obj = {};
+if ('toString' in obj) {
+  console.log(obj.hasOwnProperty('toString')) // false
+}
+```
++ for...in循环用来遍历一个对象的全部属性。
++ for...in循环有两个使用注意点:1、它遍历的是对象所有可遍历（enumerable）的属性，会跳过不可遍历的属性。2、它不仅遍历对象自身的属性，还遍历继承的属性。
+```
+var obj = {a: 1, b: 2, c: 3};
+
+for (var i in obj) {
+  console.log('键名：', i);
+  console.log('键值：', obj[i]);
+}
+```
