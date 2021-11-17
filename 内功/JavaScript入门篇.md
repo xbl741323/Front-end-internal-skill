@@ -232,7 +232,7 @@ for (var i in obj) {
 }
 ```
 + JavaScript 中 call()、apply()、bind()都是用来重定义 this 这个对象的！
-+ ![image](https://user-images.githubusercontent.com/49593119/142185080-2dc660e2-196a-4895-9f2e-c11eb50a2e0a.png)
+![image](https://user-images.githubusercontent.com/49593119/142185080-2dc660e2-196a-4895-9f2e-c11eb50a2e0a.png)
 ```
 obj.myFun.call(db,'成都','上海')；　　　　 // 德玛 年龄 99  来自 成都去往上海
 obj.myFun.apply(db,['成都','上海']);      // 德玛 年龄 99  来自 成都去往上海  
