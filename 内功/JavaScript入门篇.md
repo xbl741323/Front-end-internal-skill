@@ -378,3 +378,24 @@ var f = function(a, b) {
 }
 f(1, 1) // 2
 ```
++ 通过arguments对象的length属性，可以判断函数调用时到底带几个参数。
+```
+function f() {
+  return arguments.length;
+}
+f(1, 2, 3) // 3
+f(1) // 1
+f() // 0
+```
++ 需要注意的是，虽然arguments很像数组，但它是一个对象。数组专有的方法（比如slice和forEach），不能在arguments对象上直接使用。如果要让arguments对象使用数组方法，真正的解决方法是将arguments转为真正的数组。下面是两种常用的转换方法：slice方法和逐一填入新数组。
+```
+var args = Array.prototype.slice.call(arguments);
+// 也可以这样写
+var args = [].slice.call(arguments);
+
+// 或者
+var args = [];
+for (var i = 0; i < arguments.length; i++) {
+  args.push(arguments[i]);
+}
+```
