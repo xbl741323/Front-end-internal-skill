@@ -346,6 +346,7 @@ function f(a, a) {
 }
 f(1, 2) // 2
 ```
+#### arguments 对象
 + 由于 JavaScript 允许函数有不定数目的参数，所以需要一种机制，可以在函数体内部读取所有参数。这就是arguments对象的由来。
 + arguments对象包含了函数运行时的所有参数，arguments[0]就是第一个参数，arguments[1]就是第二个参数，以此类推。这个对象只有在函数体内部，才可以使用。
 ```
@@ -695,3 +696,75 @@ Object.keys(a)
 // ['0', '1', '2']
 ```
 + 这就是说，空位就是数组没有这个元素，所以不会被遍历到，而undefined则表示数组有这个元素，值是undefined，所以遍历不会跳过。
+#### 类似数组的对象
+如果一个对象的所有键名都是正整数或零，并且有length属性，那么这个对象就很像数组，语法上称为“类似数组的对象”（array-like object）。
++ 典型的“类似数组的对象”是函数的arguments对象，以及大多数 DOM 元素集，还有字符串。
+```
+// arguments对象
+function args() { return arguments }
+var arrayLike = args('a', 'b');
+
+arrayLike[0] // 'a'
+arrayLike.length // 2
+arrayLike instanceof Array // false
+
+// DOM元素集
+var elts = document.getElementsByTagName('h3');
+elts.length // 3
+elts instanceof Array // false
+
+// 字符串
+'abc'[1] // 'b'
+'abc'.length // 3
+'abc' instanceof Array // false
+```
++ 上面代码包含三个例子，它们都不是数组（instanceof运算符返回false），但是看上去都非常像数组。
++ 数组的slice方法可以将“类似数组的对象”变成真正的数组。
+```
+var args = Array.prototype.slice.call(arrayLike);
+// 也可以这样写
+var args = [].slice.call(arrayLike);
+```
++ 除了转为真正的数组，“类似数组的对象”还有一个办法可以使用数组的方法，就是通过call()把数组的方法放到对象上面。
+```
+function print(value, index) {
+  console.log(index + ' : ' + value);
+}
+Array.prototype.forEach.call(arrayLike, print);
+```
++ 上面代码中，arrayLike代表一个类似数组的对象，本来是不可以使用数组的forEach()方法的，但是通过call()，可以把forEach()嫁接到arrayLike上面调用。
++ 下面的例子就是通过这种方法，在arguments对象上面调用forEach方法。
+```
+// forEach 方法
+function logArgs() {
+  Array.prototype.forEach.call(arguments, function (elem, i) {
+    console.log(i + '. ' + elem);
+  });
+}
+
+// 等同于 for 循环
+function logArgs() {
+  for (var i = 0; i < arguments.length; i++) {
+    console.log(i + '. ' + arguments[i]);
+  }
+}
+```
++ 字符串也是类似数组的对象，所以也可以用Array.prototype.forEach.call遍历。
+```
+Array.prototype.forEach.call('abc', function (chr) {
+  console.log(chr);
+});
+// a
+// b
+// c
+```
++ 注意，这种方法比直接使用数组原生的forEach要慢，所以最好还是先将“类似数组的对象”转为真正的数组，然后再直接调用数组的forEach方法。
+```
+var arr = Array.prototype.slice.call('abc');
+arr.forEach(function (chr) {
+  console.log(chr);
+});
+// a
+// b
+// c
+```
