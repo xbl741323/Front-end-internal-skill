@@ -548,3 +548,147 @@ storeData(tmp);
 ```
 typeof [1, 2, 3] // "object"
 ```
++ 数组的特殊性体现在，它的键名是按次序排列的一组整数（0，1，2...）。
+```
+var arr = ['a', 'b', 'c'];
+Object.keys(arr)
+// ["0", "1", "2"]
+```
++ 上面代码中，Object.keys方法返回数组的所有键名。可以看到数组的键名就是整数0、1、2。
++ 对象有两种读取成员的方法：点结构（object.key）和方括号结构（object[key]）。但是，对于数值的键名，不能使用点结构。
+```
+var arr = [1, 2, 3];
+arr.0 // SyntaxError
+```
++ 上面代码中，arr.0的写法不合法，因为单独的数值不能作为标识符（identifier）。所以，数组成员只能用方括号arr[0]表示（方括号是运算符，可以接受数值）。
++ 数组的length属性，返回数组的成员数量。
+```
+['a', 'b', 'c'].length // 3
+```
++ 只要是数组，就一定有length属性。该属性是一个动态的值，等于键名中的最大整数加上1。
++ length属性是可写的。如果人为设置一个小于当前成员个数的值，该数组的成员数量会自动减少到length设置的值。
+```
+var arr = [ 'a', 'b', 'c' ];
+arr.length // 3
+arr.length = 2;
+arr // ["a", "b"]
+```
++ 检查某个键名是否存在的运算符in，适用于对象，也适用于数组。
+```
+var arr = [ 'a', 'b', 'c' ];
+2 in arr  // true
+'2' in arr // true
+4 in arr // false
+```
++ for...in循环不仅可以遍历对象，也可以遍历数组，毕竟数组只是一种特殊对象。
+```
+var a = [1, 2, 3];
+for (var i in a) {
+  console.log(a[i]);
+}
+// 1
+// 2
+// 3
+```
++ 但是，for...in不仅会遍历数组所有的数字键，还会遍历非数字键。
+```
+var a = [1, 2, 3];
+a.foo = true;
+
+for (var key in a) {
+  console.log(key);
+}
+// 0
+// 1
+// 2
+// foo
+```
++ 上面代码在遍历数组时，也遍历到了非整数键foo。所以，不推荐使用for...in遍历数组。数组的遍历可以考虑使用for循环或while循环。
+```
+var a = [1, 2, 3];
+
+// for循环
+for(var i = 0; i < a.length; i++) {
+  console.log(a[i]);
+}
+
+// while循环
+var i = 0;
+while (i < a.length) {
+  console.log(a[i]);
+  i++;
+}
+
+var l = a.length;
+while (l--) {
+  console.log(a[l]);
+}
+```
++ 数组的forEach方法，也可以用来遍历数组
+```
+var colors = ['red', 'green', 'blue'];
+colors.forEach(function (color) {
+  console.log(color);
+});
+// red
+// green
+// blue
+```
++ 当数组的某个位置是空元素，即两个逗号之间没有任何值，我们称该数组存在空位（hole）。
+```
+var a = [1, , 1];
+a.length // 3
+```
++ 数组的空位是可以读取的，返回undefined。
+```
+var a = [, , ,];
+a[1] // undefined
+```
++ 使用delete命令删除一个数组成员，会形成空位，并且不会影响length属性。
+```
+var a = [1, 2, 3];
+delete a[1];
+
+a[1] // undefined
+a.length // 3
+```
++ 上面代码用delete命令删除了数组的第二个元素，这个位置就形成了空位，但是对length属性没有影响。也就是说，length属性不过滤空位。所以，使用length属性进行数组遍历，一定要非常小心。
++ 数组的某个位置是空位，与某个位置是undefined，是不一样的。如果是空位，使用数组的forEach方法、for...in结构、以及Object.keys方法进行遍历，空位都会被跳过。
+```
+var a = [, , ,];
+
+a.forEach(function (x, i) {
+  console.log(i + '. ' + x);
+})
+// 不产生任何输出
+
+for (var i in a) {
+  console.log(i);
+}
+// 不产生任何输出
+
+Object.keys(a)
+// []
+```
++ 如果某个位置是undefined，遍历的时候就不会被跳过。
+```
+var a = [undefined, undefined, undefined];
+
+a.forEach(function (x, i) {
+  console.log(i + '. ' + x);
+});
+// 0. undefined
+// 1. undefined
+// 2. undefined
+
+for (var i in a) {
+  console.log(i);
+}
+// 0
+// 1
+// 2
+
+Object.keys(a)
+// ['0', '1', '2']
+```
++ 这就是说，空位就是数组没有这个元素，所以不会被遍历到，而undefined则表示数组有这个元素，值是undefined，所以遍历不会跳过。
