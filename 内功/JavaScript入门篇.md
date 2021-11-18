@@ -256,3 +256,68 @@ apply的所有参数都必须放在一个数组里面传进去 obj.myFun.apply(n
 bind除了返回是函数以外，它的参数和call 一样。
 
 ```
+
+#### 8、函数
+JavaScript 有三种声明函数的方法。
++ （1）function 命令
+```
+function print(s) {
+  console.log(s);
+}
+```
++ （2）函数表达式
+```
+var print = function(s) {
+  console.log(s);
+};
+```
++ （3）Function 构造函数
+```
+var add = new Function(
+  'x',
+  'y',
+  'return x + y'
+);
+
+// 等同于
+function add(x, y) {
+  return x + y;
+}
+```
++ 如果同一个函数被多次声明，后面的声明就会覆盖前面的声明。
++ 调用函数时，要使用圆括号运算符。圆括号之中，可以加入函数的参数。
++ 函数可以调用自身，这就是递归（recursion）。
++ JavaScript 语言将函数看作一种值，与其它值（数值、字符串、布尔值等等）地位相同，所以在 JavaScript 语言中又称函数为第一等公民。
++ JavaScript 引擎将函数名视同变量名，所以采用function命令声明函数时，整个函数会像变量声明一样，被提升到代码头部。所以，下面的代码不会报错。
+```
+f();
+function f() {}
+```
++ 函数执行时所在的作用域，是定义时的作用域，而不是调用时所在的作用域。
+```
+ // 定义在外部
+var x = function () {
+  console.log(a);
+};
+
+function y(f) {
+  var a = 2;
+  f();
+}
+
+y(x)
+// ReferenceError: a is not defined
+
+// 定义在内部
+function foo() {
+  var x = 1;
+  function bar() {
+    console.log(x);
+  }
+  return bar;
+}
+
+var x = 2;
+var f = foo();
+f() // 1
+```
