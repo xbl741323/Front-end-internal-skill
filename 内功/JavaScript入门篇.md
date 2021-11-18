@@ -573,6 +573,7 @@ arr.length // 3
 arr.length = 2;
 arr // ["a", "b"]
 ```
+### in 运算符 
 + 检查某个键名是否存在的运算符in，适用于对象，也适用于数组。
 ```
 var arr = [ 'a', 'b', 'c' ];
@@ -580,6 +581,7 @@ var arr = [ 'a', 'b', 'c' ];
 '2' in arr // true
 4 in arr // false
 ```
+#### for...in 循环和数组的遍历
 + for...in循环不仅可以遍历对象，也可以遍历数组，毕竟数组只是一种特殊对象。
 ```
 var a = [1, 2, 3];
@@ -634,6 +636,7 @@ colors.forEach(function (color) {
 // green
 // blue
 ```
+#### 数组的空位
 + 当数组的某个位置是空元素，即两个逗号之间没有任何值，我们称该数组存在空位（hole）。
 ```
 var a = [1, , 1];
