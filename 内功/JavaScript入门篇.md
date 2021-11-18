@@ -321,3 +321,60 @@ var x = 2;
 var f = foo();
 f() // 1
 ```
++ 函数参数如果是原始类型的值（数值、字符串、布尔值），传递方式是传值传递（passes by value）。这意味着，在函数体内修改参数值，不会影响到函数外部。
+```
+var p = 2;
+function f(p) {
+  p = 3;
+}
+f(p);
+p // 2
+```
++ 如果函数参数是复合类型的值（数组、对象、其他函数），传递方式是传址传递（pass by reference）。也就是说，传入函数的原始值的地址，因此在函数内部修改参数，将会影响到原始值。
+```
+var obj = { p: 1 };
+function f(o) {
+  o.p = 2;
+}
+f(obj);
+obj.p // 2
+```
++ 如果有同名的参数，则取最后出现的那个值。
+```
+function f(a, a) {
+  console.log(a);
+}
+f(1, 2) // 2
+```
++ 由于 JavaScript 允许函数有不定数目的参数，所以需要一种机制，可以在函数体内部读取所有参数。这就是arguments对象的由来。
++ arguments对象包含了函数运行时的所有参数，arguments[0]就是第一个参数，arguments[1]就是第二个参数，以此类推。这个对象只有在函数体内部，才可以使用。
+```
+var f = function (one) {
+  console.log(arguments[0]);
+  console.log(arguments[1]);
+  console.log(arguments[2]);
+}
+f(1, 2, 3)
+// 1
+// 2
+// 3
+```
++ 正常模式下，arguments对象可以在运行时修改。
+```
+var f = function(a, b) {
+  arguments[0] = 3;
+  arguments[1] = 2;
+  return a + b;
+}
+f(1, 1) // 5
+```
++ 严格模式下，arguments对象与函数参数不具有联动关系。也就是说，修改arguments对象不会影响到实际的函数参数。
+```
+var f = function(a, b) {
+  'use strict'; // 开启严格模式
+  arguments[0] = 3;
+  arguments[1] = 2;
+  return a + b;
+}
+f(1, 1) // 2
+```
