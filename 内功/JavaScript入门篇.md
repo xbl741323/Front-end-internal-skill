@@ -1110,3 +1110,129 @@ var v1;
 var v2;
 v1 === v2 // true
 ```
+##### 5、严格不相等运算符
+严格相等运算符有一个对应的“严格不相等运算符”（!==），它的算法就是先求严格相等运算符的结果，然后返回相反值。
+```
+1 !== '1' // true
+// 等同于
+!(1 === '1')
+```
++ 上面代码中，感叹号!是求出后面表达式的相反值。
+
+##### 6、相等运算符
+相等运算符用来比较相同类型的数据时，与严格相等运算符完全一样。
+```
+1 == 1.0
+// 等同于
+1 === 1.0
+```
++ 比较不同类型的数据时，相等运算符会先将数据进行类型转换，然后再用严格相等运算符比较。下面分成几种情况，讨论不同类型的值互相比较的规则。
++ （1）原始类型值
++ 原始类型的值会转换成数值再进行比较。
+```
+1 == true // true
+// 等同于 1 === Number(true)
+
+0 == false // true
+// 等同于 0 === Number(false)
+
+2 == true // false
+// 等同于 2 === Number(true)
+
+2 == false // false
+// 等同于 2 === Number(false)
+
+'true' == true // false
+// 等同于 Number('true') === Number(true)
+// 等同于 NaN === 1
+
+'' == 0 // true
+// 等同于 Number('') === 0
+// 等同于 0 === 0
+
+'' == false  // true
+// 等同于 Number('') === Number(false)
+// 等同于 0 === 0
+
+'1' == true  // true
+// 等同于 Number('1') === Number(true)
+// 等同于 1 === 1
+
+'\n  123  \t' == 123 // true
+// 因为字符串转为数字时，省略前置和后置的空格
+```
++ （2）对象与原始类型值比较
++ 对象（这里指广义的对象，包括数组和函数）与原始类型的值比较时，对象转换成原始类型的值，再进行比较。
++ 具体来说，先调用对象的valueOf()方法，如果得到原始类型的值，就按照上一小节的规则，互相比较；如果得到的还是对象，则再调用toString()方法，得到字符串形式，再进行比较。
+```
+// 数组与数值的比较
+[1] == 1 // true
+
+// 数组与字符串的比较
+[1] == '1' // true
+[1, 2] == '1,2' // true
+
+// 对象与布尔值的比较
+[1] == true // true
+[2] == true // false
+```
++ 上面例子中，JavaScript 引擎会先对数组[1]调用数组的valueOf()方法，由于返回的还是一个数组，所以会接着调用数组的toString()方法，得到字符串形式，再按照上一小节的规则进行比较。
+```
+const obj = {
+  valueOf: function () {
+    console.log('执行 valueOf()');
+    return obj;
+  },
+  toString: function () {
+    console.log('执行 toString()');
+    return 'foo';
+  }
+};
+
+obj == 'foo'
+// 执行 valueOf()
+// 执行 toString()
+// true
+```
++ 上面例子中，obj是一个自定义了valueOf()和toString()方法的对象。这个对象与字符串'foo'进行比较时，会依次调用valueOf()和toString()方法，最后返回'foo'，所以比较结果是true。
++ （3）undefined 和 null
++ undefined和null只有与自身比较，或者互相比较时，才会返回true；与其他类型的值比较时，结果都为false。
+```
+ndefined == undefined // true
+null == null // true
+undefined == null // true
+
+false == null // false
+false == undefined // false
+
+0 == null // false
+0 == undefined // false
+```
++ （4）相等运算符的缺点
++ 相等运算符隐藏的类型转换，会带来一些违反直觉的结果。
+```
+0 == ''             // true
+0 == '0'            // true
+
+2 == true           // false
+2 == false          // false
+
+false == 'false'    // false
+false == '0'        // true
+
+false == undefined  // false
+false == null       // false
+null == undefined   // true
+
+' \t\r\n ' == 0     // true
+```
++ 面这些表达式都不同于直觉，很容易出错。因此建议不要使用相等运算符（==），最好只使用严格相等运算符（===）。
++ 
+##### 7、不相等运算符
+相等运算符有一个对应的“不相等运算符”（!=），它的算法就是先求相等运算符的结果，然后返回相反值。
+```
+1 != '1' // false
+
+// 等同于
+!(1 == '1')
+```
