@@ -768,3 +768,70 @@ arr.forEach(function (chr) {
 // b
 // c
 ```
+### 三、运算符
+
+#### 1、概述
+JavaScript 共提供10个算术运算符，用来完成基本的算术运算。
++ 加法运算符：x + y
++ 减法运算符： x - y
++ 乘法运算符： x * y
++ 除法运算符：x / y
++ 指数运算符：x ** y
++ 余数运算符：x % y
++ 自增运算符：++x 或者 x++
++ 自减运算符：--x 或者 x--
++ 数值运算符： +x
++ 负数值运算符：-x
+减法、乘法、除法运算法比较单纯，就是执行相应的数学运算，下面介绍其他几个算术运算符，重点是加法运算符。
+
+#### 2、加法运算符
++ 加法运算符（+）是最常见的运算符，用来求两个数值的和。
++ 加法运算符是在运行时决定，到底是执行相加，还是执行连接。也就是说，运算子的不同，导致了不同的语法行为，这种现象称为“重载”（overload）。由于加法运算符存在重载，可能执行两种运算，使用的时候必须很小心。
+```
+'3' + 4 + 5 // "345"
+3 + 4 + '5' // "75"
+```
+#### 对象的相加
++ 如果运算子是对象，必须先转成原始类型的值，然后再相加。
+```
+var obj = { p: 1 };
+obj + 2 // "[object Object]2"
+```
++ 对象转成原始类型的值，规则如下：首先，自动调用对象的valueOf方法。
+```
+var obj = { p: 1 };
+obj.valueOf() // { p: 1 }
+```
++ 一般来说，对象的valueOf方法总是返回对象自身，这时再自动调用对象的toString方法，将其转为字符串。
+```
+var obj = { p: 1 };
+obj.valueOf().toString() // "[object Object]"
+```
++ 对象的toString方法默认返回[object Object]，所以就得到了最前面那个例子的结果。知道了这个规则以后，就可以自己定义valueOf方法或toString方法，得到想要的结果。
+```
+var obj = {
+  valueOf: function () {
+    return 1;
+  }
+};
+
+obj + 2 // 3
+
+var obj2 = {
+  toString: function () {
+    return 'hello';
+  }
+};
+
+obj2 + 2 // "hello2"
+```
++ 这里有一个特例，如果运算子是一个Date对象的实例，那么会优先执行toString方法。
+```
+var obj = new Date();
+obj.valueOf = function () { return 1 };
+obj.toString = function () { return 'hello' };
+obj + 2 // "hello2"
+```
+
+#### 3、余数运算符
+
