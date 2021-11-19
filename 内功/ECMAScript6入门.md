@@ -48,4 +48,39 @@ var foo = 2;
 console.log(bar); // 报错ReferenceError
 let bar = 2;
 ```
+#### 3、暂时性死区
++ 在代码块内，使用let命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”（temporal dead zone，简称 TDZ）。
 
+#### 4、不允许重复声明 
++ let不允许在相同作用域内，重复声明同一个变量。
+```
+// 报错
+function func() {
+  let a = 10;
+  var a = 1;
+}
+
+// 报错
+function func() {
+  let a = 10;
+  let a = 1;
+}
+```
+#### 5、const 命令
++ const声明一个只读的常量。一旦声明，常量的值就不能改变，就必须立即初始化，不能留到以后赋值。
++ const命令声明的常量也是不提升，同样存在暂时性死区，只能在声明的位置后面使用。
+```
+if (true) {
+  console.log(MAX); // ReferenceError
+  const MAX = 5;
+}
+```
++ const声明的常量，也与let一样不可重复声明。
+```
+var message = "Hello!";
+let age = 25;
+
+// 以下两行都会报错
+const message = "Goodbye!";
+const age = 30;
+```
