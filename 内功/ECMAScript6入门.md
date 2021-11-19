@@ -23,4 +23,18 @@ input.map(function (item) {
 ```
 $ npm install --save-dev @babel/core
 ```
+### 二、let 和 const 命令
+
+#### 1、基本用法
+
++ ES6 新增了let命令，用来声明变量。它的用法类似于var，但是所声明的变量，只在let命令所在的代码块内有效。
+```
+{
+  let a = 10;
+  var b = 1;
+}
+
+a // ReferenceError: a is not defined.
+b // 1
+```
 
