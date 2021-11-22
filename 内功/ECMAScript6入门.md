@@ -175,9 +175,64 @@ window.b // undefined
 ### 三、变量的解构赋值
 
 #### 1、数组的解构赋值
-
+ES6 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构（Destructuring）。以前，为变量赋值，只能直接指定值。
+```
+let a = 1;
+let b = 2;
+let c = 3;
+```
+ES6 允许写成下面这样。
+```
+let [a, b, c] = [1, 2, 3];
+```
++ 解构赋值允许指定默认值。
+```
+let [x, y = 'b'] = ['a']; // x='a', y='b'
+```
 #### 2、对象的解构赋值
+解构不仅可以用于数组，还可以用于对象。
+```
+let { foo, bar } = { foo: 'aaa', bar: 'bbb' };
+foo // "aaa"
+bar // "bbb"
+```
++ 对象的解构与数组有一个重要的不同。数组的元素是按次序排列的，变量的取值由它的位置决定；而对象的属性没有次序，变量必须与属性同名，才能取到正确的值。
+```
+let { bar, foo } = { foo: 'aaa', bar: 'bbb' };
+foo // "aaa"
+bar // "bbb"
 
+let { baz } = { foo: 'aaa', bar: 'bbb' };
+baz // undefined
+```
++ 如果解构失败，变量的值等于undefined。
++ 对象的解构赋值，可以很方便地将现有对象的方法，赋值到某个变量。
+```
+// 例一
+let { log, sin, cos } = Math;
+
+// 例二
+const { log } = console; // console是个对象类型
+log('hello') // hello
+```
++ 对象的解构也可以指定默认值。
+```
+var {x = 3} = {};
+x // 3
+
+var {x, y = 5} = {x: 1};
+x // 1
+y // 5
+
+var {x: y = 3} = {};
+y // 3
+
+var {x: y = 3} = {x: 5};
+y // 5
+
+var { message: msg = 'Something went wrong' } = {};
+msg // "Something went wrong"
+```
 #### 3、字符串的解构赋值
 
 #### 4、数值和布尔值的解构赋值
