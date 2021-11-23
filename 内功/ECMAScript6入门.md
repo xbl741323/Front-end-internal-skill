@@ -532,6 +532,7 @@ $$：指代美元符号$。
 'abc'.replaceAll('b', '$$')
 // 'a$c'
 ```
++ 下面例子中，正则表达式有三个组匹配，所以replacer()函数的第一个参数match是捕捉到的匹配内容（即字符串123abc456），后面三个参数p1、p2、p3则依次为三个组匹配。
 ```
 const str = '123abc456';
 const regex = /(\d+)([a-z]+)(\d+)/g;
@@ -541,7 +542,6 @@ function replacer(match, p1, p2, p3, offset, string) {
 str.replaceAll(regex, replacer)
 // 123 - abc - 456
 ```
-+ 上面例子中，正则表达式有三个组匹配，所以replacer()函数的第一个参数match是捕捉到的匹配内容（即字符串123abc456），后面三个参数p1、p2、p3则依次为三个组匹配。
 #### 4、实例方法：at()
 at()方法接受一个整数作为参数，返回参数指定位置的字符，支持负索引（即倒数的位置）。
 ```
