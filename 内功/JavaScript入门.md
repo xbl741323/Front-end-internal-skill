@@ -1795,3 +1795,78 @@ console.dirxml([1, 2, 3])
 // 等同于
 console.dir([1, 2, 3])
 ```
+##### 7、console.assert()
+console.assert方法主要用于程序运行过程中，进行条件判断，如果不满足条件，就显示一个错误，但不会中断程序执行。这样就相当于提示用户，内部状态不正确。
++ 它接受两个参数，第一个参数是表达式，第二个参数是字符串。只有当第一个参数为false，才会提示有错误，在控制台输出第二个参数，否则不会有任何结果。
+```
+onsole.assert(false, '判断条件不成立')
+// Assertion failed: 判断条件不成立
+
+// 相当于
+try {
+  if (!false) {
+    throw new Error('判断条件不成立');
+  }
+} catch(e) {
+  console.error(e);
+}
+```
+下面是一个例子，判断子节点的个数是否大于等于500。
+```
+console.assert(list.childNodes.length < 500, '节点个数大于等于500')
+```
++ 上面代码中，如果符合条件的节点小于500个，不会有任何输出；只有大于等于500时，才会在控制台提示错误，并且显示指定文本。
+
+##### 8、console.time()，console.timeEnd()
+这两个方法用于计时，可以算出一个操作所花费的准确时间。
+```
+console.time('Array initialize');
+
+var array= new Array(1000000);
+for (var i = array.length - 1; i >= 0; i--) {
+  array[i] = new Object();
+};
+
+console.timeEnd('Array initialize');
+// Array initialize: 1914.481ms
+```
++ time方法表示计时开始，timeEnd方法表示计时结束。它们的参数是计时器的名称。调用timeEnd方法之后，控制台会显示“计时器名称: 所耗费的时间”。
+
+##### 9、console.group()，console.groupEnd()，console.groupCollapsed()
+console.group和console.groupEnd这两个方法用于将显示的信息分组。它只在输出大量信息时有用，分在一组的信息，可以用鼠标折叠/展开。
+```
+console.group('一级分组');
+console.log('一级分组的内容');
+
+console.group('二级分组');
+console.log('二级分组的内容');
+
+console.groupEnd(); // 二级分组结束
+console.groupEnd(); // 一级分组结束
+```
++ console.groupCollapsed方法与console.group方法很类似，唯一的区别是该组的内容，在第一次显示时是收起的（collapsed），而不是展开的。
+```
+console.groupCollapsed('Fetching Data');
+
+console.log('Request Sent');
+console.error('Error: Server not responding (500)');
+
+console.groupEnd();
+```
++ 上面代码只显示一行”Fetching Data“，点击后才会展开，显示其中包含的两行。
+
+##### 10、console.trace()，console.clear()
++ console.trace方法显示当前执行的代码在堆栈中的调用路径。
++ console.clear方法用于清除当前控制台的所有输出，将光标回置到第一行。如果用户选中了控制台的“Preserve log”选项，console.clear方法将不起作用。
+
+##### 11、debugger 语句
+debugger语句主要用于除错，作用是设置断点。如果有正在运行的除错工具，程序运行到debugger语句时会自动停下。
++ 如果没有除错工具，debugger语句不会产生任何结果，JavaScript 引擎自动跳过这一句。
++ Chrome 浏览器中，当代码运行到debugger语句时，就会暂停运行，自动打开脚本源码界面。
+```
+for(var i = 0; i < 5; i++){
+  console.log(i);
+  if (i === 2) debugger;
+}
+```
+上面代码打印出0，1，2以后，就会暂停，自动打开源码界面，等待进一步处理。
