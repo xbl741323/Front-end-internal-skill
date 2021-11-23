@@ -1682,3 +1682,116 @@ Performance：查看网页的性能情况，比如 CPU 和内存消耗。
 + Console：用来运行 JavaScript 命令。
 + 这些面板都有各自的用途，以下只介绍Console面板（又称为控制台）。
 + Console面板基本上就是一个命令行窗口，你可以在提示符下，键入各种命令。
+
+##### 2、console 对象的静态方法
++ console.log方法用于在控制台输出信息。它可以接受一个或多个参数，将它们连接起来输出。
++ console.info是console.log方法的别名，用法完全一样。只不过console.info方法会在输出信息的前面，加上一个蓝色图标。
++ console.debug方法与console.log方法类似，会在控制台输出调试信息。但是，默认情况下，console.debug输出的信息不会显示，只有在打开显示级别在verbose的情况下，才会显示。
++ console对象的所有方法，都可以被覆盖。因此，可以按照自己的需要，定义console.log方法。
+```
+['log', 'info', 'warn', 'error'].forEach(function(method) {
+  console[method] = console[method].bind(
+    console,
+    new Date().toISOString()
+  );
+});
+
+console.log("出错了！");
+// 2014-05-18T09:00.000Z 出错了！
+```
+##### 3、console.warn()，console.error()
+warn方法和error方法也是在控制台输出信息，它们与log方法的不同之处在于:
++ warn方法输出信息时，在最前面加一个黄色三角，表示警告；
++ error方法输出信息时，在最前面加一个红色的叉，表示出错。同时，还会高亮显示输出文字和错误发生的堆栈。其他方面都一样。
+```
+console.error('Error: %s (%i)', 'Server is not responding', 500)
+// Error: Server is not responding (500)
+console.warn('Warning! Too few nodes (%d)', document.childNodes.length)
+// Warning! Too few nodes (1)
+```
+##### 4、console.table()
+对于某些复合类型的数据，console.table方法可以将其转为表格显示。
+```
+var languages = [
+  { name: "JavaScript", fileExtension: ".js" },
+  { name: "TypeScript", fileExtension: ".ts" },
+  { name: "CoffeeScript", fileExtension: ".coffee" }
+];
+
+console.table(languages);
+```
++ 上面代码的language变量，转为表格显示如下。
+```
+(index)	name	fileExtension
+0	"JavaScript"	".js"
+1	"TypeScript"	".ts"
+2	"CoffeeScript"	".coffee"
+```
+##### 5、console.count()
+count方法用于计数，输出它被调用了多少次。
+```
+function greet(user) {
+  console.count();
+  return 'hi ' + user;
+}
+
+greet('bob')
+//  : 1
+// "hi bob"
+
+greet('alice')
+//  : 2
+// "hi alice"
+
+greet('bob')
+//  : 3
+// "hi bob"
+```
++ 该方法可以接受一个字符串作为参数，作为标签，对执行次数进行分类。
+```
+function greet(user) {
+  console.count(user);
+  return "hi " + user;
+}
+
+greet('bob')
+// bob: 1
+// "hi bob"
+
+greet('alice')
+// alice: 1
+// "hi alice"
+
+greet('bob')
+// bob: 2
+// "hi bob"
+```
++ 上面代码根据参数的不同，显示bob执行了两次，alice执行了一次。
+##### 6、console.dir()，console.dirxml()
++ dir方法用来对一个对象进行检查（inspect），并以易于阅读和打印的格式显示。
+```
+console.log({f1: 'foo', f2: 'bar'})
+// Object {f1: "foo", f2: "bar"}
+
+console.dir({f1: 'foo', f2: 'bar'})
+// Object
+//   f1: "foo"
+//   f2: "bar"
+//   __proto__: Object
+```
++ 上面代码显示dir方法的输出结果，比log方法更易读，信息也更丰富。
++ 该方法对于输出 DOM 对象非常有用，因为会显示 DOM 对象的所有属性。
++ Node 环境之中，还可以指定以代码高亮的形式输出。
+```
+console.dir(obj, {colors: true})
+```
++ dirxml方法主要用于以目录树的形式，显示 DOM 节点
+```
+console.dirxml(document.body)
+```
++ 如果参数不是 DOM 节点，而是普通的 JavaScript 对象，console.dirxml等同于console.dir。
+```
+console.dirxml([1, 2, 3])
+// 等同于
+console.dir([1, 2, 3])
+```
