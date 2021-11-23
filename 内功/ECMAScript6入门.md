@@ -478,3 +478,38 @@ repeat方法返回一个新字符串，表示将原字符串重复n次。
 'na'.repeat('na') // ""
 'na'.repeat('3') // "nanana"
 ```
+#### 3、实例方法：replaceAll()
+历史上，字符串的实例方法replace()只能替换第一个匹配。
+```
+'aabbcc'.replace('b', '_')
+// 'aa_bcc'
+```
++ 如果要替换所有的匹配，不得不使用正则表达式的g修饰符。
+```
+'aabbcc'.replace(/b/g, '_')
+// 'aa__cc'
+```
++ 正则表达式毕竟不是那么方便和直观，ES2021 引入了replaceAll()方法，可以一次性替换所有匹配。
++ 它的用法与replace()相同，返回一个新字符串，不会改变原字符串。
++ replaceAll()的第二个参数replacement除了为字符串，也可以是一个函数，该函数的返回值将替换掉第一个参数searchValue匹配的文本。
+```
+'aabbcc'.replaceAll('b', () => '_')
+// 'aa__cc'
+```
+```
+const str = '123abc456';
+const regex = /(\d+)([a-z]+)(\d+)/g;
+function replacer(match, p1, p2, p3, offset, string) {
+  return [p1, p2, p3].join(' - ');
+}
+str.replaceAll(regex, replacer)
+// 123 - abc - 456
+```
++ 上面例子中，正则表达式有三个组匹配，所以replacer()函数的第一个参数match是捕捉到的匹配内容（即字符串123abc456），后面三个参数p1、p2、p3则依次为三个组匹配。
+#### 4、实例方法：at()
+at()方法接受一个整数作为参数，返回参数指定位置的字符，支持负索引（即倒数的位置）。
+```
+const str = 'hello';
+str.at(1) // "e"
+str.at(-1) // "o"
+```
