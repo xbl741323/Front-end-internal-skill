@@ -234,8 +234,36 @@ var { message: msg = 'Something went wrong' } = {};
 msg // "Something went wrong"
 ```
 #### 3、字符串的解构赋值
+字符串也可以解构赋值。这是因为此时，字符串被转换成了一个类似数组的对象。
+```
+const [a, b, c, d, e] = 'hello';
+a // "h"
+b // "e"
+c // "l"
+d // "l"
+e // "o"
+```
++ 类似数组的对象都有一个length属性，因此还可以对这个属性解构赋值。
+```
+let {length : len} = 'hello';
+len // 5
+```
++ 上面代码中，数值和布尔值的包装对象都有toString属性，因此变量s都能取到值。
++ 解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错。
+```
+let { prop: x } = undefined; // TypeError
+let { prop: y } = null; // TypeError
+```
 
 #### 4、数值和布尔值的解构赋值
+解构赋值时，如果等号右边是数值和布尔值，则会先转为对象。
+```
+let {toString: s} = 123;
+s === Number.prototype.toString // true
+
+let {toString: s} = true;
+s === Boolean.prototype.toString // true
+```
 
 #### 5、函数参数的解构赋值
 
