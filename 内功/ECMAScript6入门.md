@@ -381,3 +381,5 @@ for (let [,value] of map) {
 ```
 const { SourceMapConsumer, SourceNode } = require("source-map");
 ```
+
+### 四、字符串的扩展
