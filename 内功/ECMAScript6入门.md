@@ -549,3 +549,182 @@ const str = 'hello';
 str.at(1) // "e"
 str.at(-1) // "o"
 ```
+### 五、正则的扩展（暂不记录）
+
+### 六、数值的扩展
+#### 1、二进制和八进制表示法
+ES6 提供了二进制和八进制数值的新的写法，分别用前缀0b（或0B）和0o（或0O）表示。
+```
+0b111110111 === 503 // true
+0o767 === 503 // true
+```
++ 如果要将0b和0o前缀的字符串数值转为十进制，要使用Number方法。
+```
+Number('0b111')  // 7
+Number('0o10')  // 8
+```
+#### 2、Number.isFinite(), Number.isNaN() 
+ES6 在Number对象上，新提供了Number.isFinite()和Number.isNaN()两个方法。
++ Number.isFinite()用来检查一个数值是否为有限的（finite），即不是Infinity。
+```
+Number.isFinite(15); // true
+Number.isFinite(0.8); // true
+Number.isFinite(NaN); // false
+Number.isFinite(Infinity); // false
+Number.isFinite(-Infinity); // false
+Number.isFinite('foo'); // false
+Number.isFinite('15'); // false
+Number.isFinite(true); // false
+```
++ 注意，如果参数类型不是数值，Number.isFinite一律返回false。
++ Number.isNaN()用来检查一个值是否为NaN。
+```
+Number.isNaN(NaN) // true
+Number.isNaN(15) // false
+Number.isNaN('15') // false
+Number.isNaN(true) // false
+Number.isNaN(9/NaN) // true
+Number.isNaN('true' / 0) // true
+Number.isNaN('true' / 'true') // true
+```
++ 如果参数类型不是NaN，Number.isNaN一律返回false。
++ 它们与传统的全局方法isFinite()和isNaN()的区别在于，传统方法先调用Number()将非数值的值转为数值，再进行判断，而这两个新方法只对数值有效，Number.isFinite()对于非数值一律返回false, Number.isNaN()只有对于NaN才返回true，非NaN一律返回false。
+```
+isFinite(25) // true
+isFinite("25") // true
+Number.isFinite(25) // true
+Number.isFinite("25") // false
+
+isNaN(NaN) // true
+isNaN("NaN") // true
+Number.isNaN(NaN) // true
+Number.isNaN("NaN") // false
+Number.isNaN(1) // false
+```
+#### 3、Number.parseInt(), Number.parseFloat() 
+ES6 将全局方法parseInt()和parseFloat()，移植到Number对象上面，行为完全保持不变。
+```
+// ES5的写法
+parseInt('12.34') // 12
+parseFloat('123.45#') // 123.45
+
+// ES6的写法
+Number.parseInt('12.34') // 12
+Number.parseFloat('123.45#') // 123.45
+```
+这样做的目的，是逐步减少全局性方法，使得语言逐步模块化。
+```
+Number.parseInt === parseInt // true
+Number.parseFloat === parseFloat // true
+```
+#### 4、Number.isInteger() 
+Number.isInteger()用来判断一个数值是否为整数。
+```
+Number.isInteger(25) // true
+Number.isInteger(25.1) // false
+```
++ JavaScript 内部，整数和浮点数采用的是同样的储存方法，所以 25 和 25.0 被视为同一个值。
+```
+Number.isInteger(25) // true
+Number.isInteger(25.0) // true
+```
++ 如果参数不是数值，Number.isInteger返回false。
+```
+Number.isInteger() // false
+Number.isInteger(null) // false
+Number.isInteger('15') // false
+Number.isInteger(true) // false
+```
++ 注意，由于 JavaScript 采用 IEEE 754 标准，数值存储为64位双精度格式，数值精度最多可以达到 53 个二进制位（1 个隐藏位与 52 个有效位）。如果数值的精度超过这个限度，第54位及后面的位就会被丢弃，这种情况下，Number.isInteger可能会误判。
+```
+Number.isInteger(3.0000000000000002) // true
+```
++ 上面代码中，Number.isInteger的参数明明不是整数，但是会返回true。原因就是这个小数的精度达到了小数点后16个十进制位，转成二进制位超过了53个二进制位，导致最后的那个2被丢弃了。
++ 类似的情况还有，如果一个数值的绝对值小于Number.MIN_VALUE（5E-324），即小于 JavaScript 能够分辨的最小值，会被自动转为 0。这时，Number.isInteger也会误判。
+```
+Number.isInteger(5E-324) // false
+Number.isInteger(5E-325) // true
+```
++ 上面代码中，5E-325由于值太小，会被自动转为0，因此返回true。总之，如果对数据精度的要求较高，不建议使用Number.isInteger()判断一个数值是否为整数。
+
+#### 5、Number.EPSILON
+ES6 在Number对象上面，新增一个极小的常量Number.EPSILON。根据规格，它表示 1 与大于 1 的最小浮点数之间的差。
+```
+Number.EPSILON === Math.pow(2, -52)
+// true
+Number.EPSILON
+// 2.220446049250313e-16
+Number.EPSILON.toFixed(20)
+// "0.00000000000000022204"
+```
++ Number.EPSILON实际上是 JavaScript 能够表示的最小精度。误差如果小于这个值，就可以认为已经没有意义了，即不存在误差了。
++ 引入一个这么小的量的目的，在于为浮点数计算，设置一个误差范围。我们知道浮点数计算是不精确的。
+```
+0.1 + 0.2
+// 0.30000000000000004
+
+0.1 + 0.2 - 0.3
+// 5.551115123125783e-17
+
+5.551115123125783e-17.toFixed(20)
+// '0.00000000000000005551'
+```
++ 上面代码解释了，为什么比较0.1 + 0.2与0.3得到的结果是false。
+```
+0.1 + 0.2 === 0.3 // false
+```
++ Number.EPSILON的实质是一个可以接受的最小误差范围。
+
+#### 6、安全整数和 Number.isSafeInteger() 
+JavaScript 能够准确表示的整数范围在-2^53到2^53之间（不含两个端点），超过这个范围，无法精确表示这个值。
+```
+Math.pow(2, 53) // 9007199254740992
+
+9007199254740992  // 9007199254740992
+9007199254740993  // 9007199254740992
+
+Math.pow(2, 53) === Math.pow(2, 53) + 1
+// true
+```
++ ES6 引入了Number.MAX_SAFE_INTEGER和Number.MIN_SAFE_INTEGER这两个常量，用来表示这个范围的上下限。
+```
+Number.MAX_SAFE_INTEGER === Math.pow(2, 53) - 1
+// true
+Number.MAX_SAFE_INTEGER === 9007199254740991
+// true
+
+Number.MIN_SAFE_INTEGER === -Number.MAX_SAFE_INTEGER
+// true
+Number.MIN_SAFE_INTEGER === -9007199254740991
+// true
+```
++ Number.isSafeInteger()则是用来判断一个整数是否落在这个范围之内。
+```
+Number.isSafeInteger('a') // false
+Number.isSafeInteger(null) // false
+Number.isSafeInteger(NaN) // false
+Number.isSafeInteger(Infinity) // false
+Number.isSafeInteger(-Infinity) // false
+
+Number.isSafeInteger(3) // true
+Number.isSafeInteger(1.2) // false
+Number.isSafeInteger(9007199254740990) // true
+Number.isSafeInteger(9007199254740992) // false
+
+Number.isSafeInteger(Number.MIN_SAFE_INTEGER - 1) // false
+Number.isSafeInteger(Number.MIN_SAFE_INTEGER) // true
+Number.isSafeInteger(Number.MAX_SAFE_INTEGER) // true
+Number.isSafeInteger(Number.MAX_SAFE_INTEGER + 1) // false
+```
+
+#### 7、Math 对象的扩展
+ES6 在 Math 对象上新增了 17 个与数学相关的方法。所有这些方法都是静态方法，只能在 Math 对象上调用。
++ （1）、Math.trunc() 
+Math.trunc方法用于去除一个数的小数部分，返回整数部分。
+```
+Math.trunc(4.1) // 4
+Math.trunc(4.9) // 4
+Math.trunc(-4.1) // -4
+Math.trunc(-4.9) // -4
+Math.trunc(-0.1234) // -0
+```
