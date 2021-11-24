@@ -720,7 +720,7 @@ Number.isSafeInteger(Number.MAX_SAFE_INTEGER + 1) // false
 #### 7、Math 对象的扩展
 ES6 在 Math 对象上新增了 17 个与数学相关的方法。所有这些方法都是静态方法，只能在 Math 对象上调用。
 + 1、Math.trunc() 
-+ Math.trunc方法用于去除一个数的小数部分，返回整数部分。
++ Math.trunc方法用于去除一个数的小数部分，返回整数部分，对于非数值，Math.trunc内部使用Number方法将其先转为数值，对于空值和无法截取整数的值，返回NaN。
 ```
 Math.trunc(4.1) // 4
 Math.trunc(4.9) // 4
@@ -728,3 +728,28 @@ Math.trunc(-4.1) // -4
 Math.trunc(-4.9) // -4
 Math.trunc(-0.1234) // -0
 ```
++ 2、Math.sign()
++ Math.sign方法用来判断一个数到底是正数、负数、还是零，对于非数值，会先将其转换为数值。
++ 它会返回五种值。
+```
+//参数为正数，返回+1；
+//参数为负数，返回-1；
+//参数为 0，返回0；
+//参数为-0，返回-0;
+//其他值，返回NaN。
+
+Math.sign(-5) // -1
+Math.sign(5) // +1
+Math.sign(0) // +0
+Math.sign(-0) // -0
+Math.sign(NaN) // NaN
+```
++ 3、Math.cbrt()
++ Math.cbrt()方法用于计算一个数的立方根，对于非数值，Math.cbrt()方法内部也是先使用Number()方法将其转为数值。
+```
+Math.cbrt(-1) // -1
+Math.cbrt(0)  // 0
+Math.cbrt(1)  // 1
+Math.cbrt(2)  // 1.2599210498948732
+```
++ 4、Math.hypot()
