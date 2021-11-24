@@ -1874,6 +1874,51 @@ for(var i = 0; i < 5; i++){
 ### 五、标准库
 
 #### 一、Object 对象
+##### 1、概述
+JavaScript 原生提供Object对象（注意起首的O是大写），本章介绍该对象原生的各种方法。
++ JavaScript 的所有其他对象都继承自Object对象，即那些对象都是Object的实例。
++ （1）Object对象本身的方法
+所谓“本身的方法”就是直接定义在Object对象的方法。
+```
+Object.print = function (o) { console.log(o) };
+```
++ （2）Object的实例方法
+所谓实例方法就是定义在Object原型对象Object.prototype上的方法。它可以被Object实例直接使用。
+```
+Object.prototype.print = function () {
+  console.log(this);
+};
+
+var obj = new Object();
+obj.print() // Object
+```
++ 以下先介绍Object作为函数的用法，然后再介绍Object对象的原生方法，分成对象自身的方法（又称为“静态方法”）和实例方法两部分。
+
+##### 2、Object()
+Object本身是一个函数，可以当作工具方法使用，将任意值转为对象。这个方法常用于保证某个值一定是对象。
++ 如果参数为空（或者为undefined和null），Object()返回一个空对象。
+```
+var obj = Object();
+// 等同于
+var obj = Object(undefined);
+var obj = Object(null);
+obj instanceof Object // true
+```
++ instanceof运算符用来验证，一个对象是否为指定的构造函数的实例。obj instanceof Object返回true，就表示obj对象是Object的实例。
++ 如果参数是原始类型的值，Object方法将其转为对应的包装对象的实例。
+```
+var obj = Object(1);
+obj instanceof Object // true
+obj instanceof Number // true
+
+var obj = Object('foo');
+obj instanceof Object // true
+obj instanceof String // true
+
+var obj = Object(true);
+obj instanceof Object // true
+obj instanceof Boolean // true
+```
 
 #### 二、属性描述对象
 
