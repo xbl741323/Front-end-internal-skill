@@ -719,7 +719,7 @@ Number.isSafeInteger(Number.MAX_SAFE_INTEGER + 1) // false
 
 #### 7、Math 对象的扩展
 ES6 在 Math 对象上新增了 17 个与数学相关的方法。所有这些方法都是静态方法，只能在 Math 对象上调用。
-+ （1）、Math.trunc() 
++ （1）Math.trunc() 
 Math.trunc方法用于去除一个数的小数部分，返回整数部分。
 ```
 Math.trunc(4.1) // 4
