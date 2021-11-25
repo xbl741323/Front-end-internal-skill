@@ -763,3 +763,41 @@ Math.hypot(3, 4, 'foo'); // NaN
 Math.hypot(3, 4, '5');   // 7.0710678118654755
 Math.hypot(-3);          // 3
 ```
+
+### 七、函数的扩展
+#### 1、函数参数的默认值
++ ES6 之前，不能直接为函数的参数指定默认值，只能采用变通的方法。
++ ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面。
++ 参数变量是默认声明的，所以不能用let或const再次声明。
+```
+function foo(x = 5) {
+  let x = 1; // error
+  const x = 2; // error
+}
+```
++ 参数默认值可以与解构赋值的默认值，结合起来使用。
+```
+unction foo({x, y = 5}) {
+  console.log(x, y);
+}
+
+foo({}) // undefined 5
+foo({x: 1}) // 1 5
+foo({x: 1, y: 2}) // 1 2
+foo() // TypeError: Cannot read property 'x' of undefined
+```
+
+#### 2、rest 参数
+ES6 引入 rest 参数（形式为...变量名），用于获取函数的多余参数，这样就不需要使用arguments对象了。rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中。
+```
+function add(...values) {
+  let sum = 0;
+
+  for (var val of values) {
+    sum += val;
+  }
+
+  return sum;
+}
+add(2, 5, 3) // 10
+```
