@@ -2190,6 +2190,22 @@ a.slice(1, 2) // ["b"]
 a.slice(2, 6) // ["c"]
 a.slice() // ["a", "b", "c"]
 ```
++ 上面代码中，最后一个例子slice()没有参数，实际上等于返回一个原数组的拷贝。
++ 如果slice()方法的参数是负数，则表示倒数计算的位置（第一个参数不会包括在返回的新数组之中，第二个会）。
+```
+var a = ['a', 'b', 'c'];
+a.slice(-2) // ["b", "c"]
+a.slice(-2, -1) // ["b"]
+```
++ slice()方法的一个重要应用，是将类似数组的对象转为真正的数组。
+```
+Array.prototype.slice.call({ 0: 'a', 1: 'b', length: 2 })
+// ['a', 'b']
+
+Array.prototype.slice.call(document.querySelectorAll("div"));
+Array.prototype.slice.call(arguments);
+```
++ 上面代码的参数都不是数组，但是通过call方法，在它们上面调用slice()方法，就可以把它们转为真正的数组。
 
 #### 四、包装对象
 
