@@ -1919,7 +1919,70 @@ var obj = Object(true);
 obj instanceof Object // true
 obj instanceof Boolean // true
 ```
+##### 3、Object 构造函数
+Object不仅可以当作工具函数使用，还可以当作构造函数使用，即前面可以使用new命令。
++ Object构造函数的首要用途，是直接通过它来生成新对象。
+```
+var obj = new Object();
+```
++ 注意，通过var obj = new Object()的写法生成新对象，与字面量的写法var obj = {}是等价的。或者说，后者只是前者的一种简便写法。
++ Object构造函数的用法与工具方法很相似，几乎一模一样。使用时，可以接受一个参数，如果该参数是一个对象，则直接返回这个对象；如果是一个原始类型的值，则返回该值对应的包装对象。
+```
+var o1 = {a: 1};
+var o2 = new Object(o1);
+o1 === o2 // true
 
+var obj = new Object(123);
+obj instanceof Number // true
+```
+##### 4、Object 的静态方法
++ Object.keys()，Object.getOwnPropertyNames() 
++ Object.keys方法的参数是一个对象，返回一个数组。该数组的成员都是该对象自身的（而不是继承的）所有属性名。
+```
+var obj = {
+  p1: 123,
+  p2: 456
+};
+
+Object.keys(obj) // ["p1", "p2"]
+```
++ Object.getOwnPropertyNames方法与Object.keys类似，也是接受一个对象作为参数，返回一个数组，包含了该对象自身的所有属性名。
+```
+var obj = {
+  p1: 123,
+  p2: 456
+};
+Object.getOwnPropertyNames(obj) // ["p1", "p2"]
+```
++ 对于一般的对象来说，Object.keys()和Object.getOwnPropertyNames()返回的结果是一样的。只有涉及不可枚举属性时，才会有不一样的结果。Object.keys方法只返回可枚举的属性，Object.getOwnPropertyNames方法还返回不可枚举的属性名。
+```
+var a = ['Hello', 'World'];
+
+Object.keys(a) // ["0", "1"]
+Object.getOwnPropertyNames(a) // ["0", "1", "length"]
+```
++ 上面代码中，数组的length属性是不可枚举的属性，所以只出现在Object.getOwnPropertyNames方法的返回结果中。
++ 由于 JavaScript 没有提供计算对象属性个数的方法，所以可以用这两个方法代替。
+```
+var obj = {
+  p1: 123,
+  p2: 456
+};
+
+Object.keys(obj).length // 2
+Object.getOwnPropertyNames(obj).length // 2
+```
+##### 5、Object 的实例方法
++ 除了静态方法，还有不少方法定义在Object.prototype对象。它们称为实例方法，所有Object的实例对象都继承了这些方法。
+Object实例对象的方法，主要有以下六个:
+```
+Object.prototype.valueOf()：返回当前对象对应的值。
+Object.prototype.toString()：返回当前对象对应的字符串形式。
+Object.prototype.toLocaleString()：返回当前对象对应的本地字符串形式。
+Object.prototype.hasOwnProperty()：判断某个属性是否为当前对象自身的属性，还是继承自原型对象的属性。
+Object.prototype.isPrototypeOf()：判断当前对象是否为另一个对象的原型。
+Object.prototype.propertyIsEnumerable()：判断某个属性是否可枚举。
+```
 #### 二、属性描述对象
 
 #### 三、Array 对象
