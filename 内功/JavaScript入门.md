@@ -2550,6 +2550,111 @@ substr方法用于从原字符串取出子字符串并返回，不改变原字�
 'JavaScript'.substr(-6) // "Script"
 'JavaScript'.substr(4, -1) // ""
 ```
++ 4.7 String.prototype.indexOf()，String.prototype.lastIndexOf()
+indexOf方法用于确定一个字符串在另一个字符串中第一次出现的位置，返回结果是匹配开始的位置。如果返回-1，就表示不匹配。
+```
+'hello world'.indexOf('o') // 4
+'JavaScript'.indexOf('script') // -1
+```
++ indexOf方法还可以接受第二个参数，表示从该位置开始向后匹配。
+```
+'hello world'.indexOf('o', 6) // 7
+```
++ lastIndexOf方法的用法跟indexOf方法一致，主要的区别是lastIndexOf从尾部开始匹配，indexOf则是从头部开始匹配。
+```
+'hello world'.lastIndexOf('o') // 7
+```
++ 另外，lastIndexOf的第二个参数表示从该位置起向前匹配。
+```
+'hello world'.lastIndexOf('o', 6) // 4
+```
++ 4.8 String.prototype.trim()
+trim方法用于去除字符串两端的空格，返回一个新字符串，不改变原字符串。
+```
+'  hello world  '.trim()
+// "hello world"
+```
++ 该方法去除的不仅是空格，还包括制表符（\t、\v）、换行符（\n）和回车符（\r）。
+```
+'\r\nabc \t'.trim() // 'abc'
+```
++ 4.9 String.prototype.toLowerCase()，String.prototype.toUpperCase()
+toLowerCase方法用于将一个字符串全部转为小写，toUpperCase则是全部转为大写。它们都返回一个新字符串，不改变原字符串。
+```
+'Hello World'.toLowerCase()
+// "hello world"
+
+'Hello World'.toUpperCase()
+// "HELLO WORLD"
+```
++ 4.10 String.prototype.match() 
+match方法用于确定原字符串是否匹配某个子字符串，返回一个数组，成员为匹配的第一个字符串。如果没有找到匹配，则返回null。
+```
+'cat, bat, sat, fat'.match('at') // ["at"]
+'cat, bat, sat, fat'.match('xt') // null
+```
++ 返回的数组还有index属性和input属性，分别表示匹配字符串开始的位置和原始字符串。
+```
+var matches = 'cat, bat, sat, fat'.match('at');
+matches.index // 1
+matches.input // "cat, bat, sat, fat"
+```
++ match方法还可以使用正则表达式作为参数
++ 4.11 String.prototype.search()，String.prototype.replace()
+search方法的用法基本等同于match，但是返回值为匹配的第一个位置。如果没有找到匹配，则返回-1。
+```
+'cat, bat, sat, fat'.search('at') // 1
+```
++ search方法还可以使用正则表达式作为参数
++ replace方法用于替换匹配的子字符串，一般情况下只替换第一个匹配（除非使用带有g修饰符的正则表达式）。
+```
+'aaa'.replace('a', 'b') // "baa"
+```
++ 4.12 String.prototype.split() 
+split方法按照给定规则分割字符串，返回一个由分割出来的子字符串组成的数组。
+```
+'a|b|c'.split('|') // ["a", "b", "c"]
+'a|b|c'.split('') // ["a", "|", "b", "|", "c"]
+'a|b|c'.split() // ["a|b|c"]
+```
++ 如果满足分割规则的两个部分紧邻着（即两个分割符中间没有其他字符），则返回数组之中会有一个空字符串。
+```
+'a||c'.split('|') // ['a', '', 'c']
+```
++ 如果满足分割规则的部分处于字符串的开头或结尾（即它的前面或后面没有其他字符），则返回数组的第一个或最后一个成员是一个空字符串。
+```
+'|b|c'.split('|') // ["", "b", "c"]
+'a|b|'.split('|') // ["a", "b", ""]
+```
++ split方法还可以接受第二个参数，限定返回数组的最大成员数。
+```
+'a|b|c'.split('|', 0) // []
+'a|b|c'.split('|', 1) // ["a"]
+'a|b|c'.split('|', 2) // ["a", "b"]
+'a|b|c'.split('|', 3) // ["a", "b", "c"]
+'a|b|c'.split('|', 4) // ["a", "b", "c"]
+```
++ 4.13 String.prototype.localeCompare()
+localeCompare方法用于比较两个字符串。它返回一个整数，如果小于0，表示第一个字符串小于第二个字符串；如果等于0，表示两者相等；如果大于0，表示第一个字符串大于第二个字符串。
+```
+'apple'.localeCompare('banana') // -1
+'apple'.localeCompare('apple') // 0
+```
++ 该方法的最大特点，就是会考虑自然语言的顺序。举例来说，正常情况下，大写的英文字母小于小写字母。
+```
+'B' > 'a' // false
+```
+
++ 上面代码中，字母B小于字母a。因为 JavaScript 采用的是 Unicode 码点比较，B的码点是66，而a的码点是97，但是，localeCompare方法会考虑自然语言的排序情况，将B排在a的前面。
+```
+'B'.localeCompare('a') // 1
+```
++ localeCompare还可以有第二个参数，指定所使用的语言（默认是英语），然后根据该语言的规则进行比较。
+```
+'ä'.localeCompare('z', 'de') // -1
+'ä'.localeCompare('z', 'sv') // 1
+```
++ 上面代码中，de表示德语，sv表示瑞典语。德语中，ä小于z，所以返回-1；瑞典语中，ä大于z，所以返回1。
 
 #### 八、Math 对象
 
