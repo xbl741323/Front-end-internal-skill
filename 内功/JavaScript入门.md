@@ -2299,6 +2299,9 @@ Number.prototype.double = function () {
 
 #### 五、Boolean 对象
 
+##### 1、概述
+Boolean对象是 JavaScript 的三个包装对象之一。作为构造函数，它主要用于生成布尔值的包装对象实例。
+
 #### 六、Number 对象
 
 #### 七、String 对象
