@@ -2503,6 +2503,22 @@ var three = '3';
 ''.concat(one, two, three) // "123"
 one + two + three // "33"
 ```
++ 4.4 String.prototype.slice()
+slice()方法用于从原字符串取出子字符串并返回，不改变原字符串。它的第一个参数是子字符串的开始位置，第二个参数是子字符串的结束位置（不含该位置）。
+```
+'JavaScript'.slice(0, 4) // "Java"
+'JavaScript'.slice(4) // "Script"
+```
++ 如果参数是负值，表示从结尾开始倒数计算的位置，即该负值加上字符串长度。
+```
+'JavaScript'.slice(-6) // "Script"
+'JavaScript'.slice(0, -6) // "Java"
+'JavaScript'.slice(-2, -1) // "p"
+```
++ 如果第一个参数大于第二个参数（正数情况下），slice()方法返回一个空字符串。
+```
+'JavaScript'.slice(2, 1) // ""
+```
 
 #### 八、Math 对象
 
