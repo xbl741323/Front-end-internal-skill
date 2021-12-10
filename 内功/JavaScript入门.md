@@ -2447,6 +2447,17 @@ Number.prototype.toLocaleString()方法接受一个地区码作为参数，返�
 ```
 #### 七、String 对象
 
+##### 1、概述
+String对象是 JavaScript 原生提供的三个包装对象之一，用来生成字符串对象。
+```
+var s1 = 'abc';
+var s2 = new String('abc');
+
+typeof s1 // "string"
+typeof s2 // "object"
+s2.valueOf() // "abc"
+```
+
 #### 八、Math 对象
 
 #### 九、Date 对象
