@@ -2457,6 +2457,28 @@ typeof s1 // "string"
 typeof s2 // "object"
 s2.valueOf() // "abc"
 ```
+##### 2、静态方法
++ 2.1 String.fromCharCode()
+String对象提供的静态方法（即定义在对象本身，而不是定义在对象实例的方法），主要是String.fromCharCode()。该方法的参数是一个或多个数值，代表 Unicode 码点，返回值是这些码点组成的字符串。
+```
+String.fromCharCode() // ""
+String.fromCharCode(97) // "a"
+String.fromCharCode(104, 101, 108, 108, 111)
+// "hello"
+```
+##### 3、实例属性 String.prototype.length
+字符串实例的length属性返回字符串的长度。
+```
+'abc'.length // 3
+```
+##### 4、实例方法
++ 4.1、String.prototype.charAt()
+charAt方法返回指定位置的字符，参数是从0开始编号的位置。
+```
+var s = new String('abc');
+s.charAt(1) // "b"
+s.charAt(s.length - 1) // "c"
+```
 
 #### 八、Math 对象
 
