@@ -2479,6 +2479,30 @@ var s = new String('abc');
 s.charAt(1) // "b"
 s.charAt(s.length - 1) // "c"
 ```
++ 4.2 String.prototype.charCodeAt()
+charCodeAt()方法返回字符串指定位置的 Unicode 码点（十进制表示），相当于String.fromCharCode()的逆操作。
+```
+'abc'.charCodeAt(1) // 98
+```
++ 4.3 String.prototype.concat() 
+concat方法用于连接两个字符串，返回一个新字符串，不改变原字符串。
+```
+var s1 = 'abc';
+var s2 = 'def';
+
+s1.concat(s2) // "abcdef"
+s1 // "abc"
+'a'.concat('b', 'c') // "abc"
+```
++ 如果参数不是字符串，concat方法会将其先转为字符串，然后再连接。
+```
+var one = 1;
+var two = 2;
+var three = '3';
+
+''.concat(one, two, three) // "123"
+one + two + three // "33"
+```
 
 #### 八、Math 对象
 
