@@ -2357,6 +2357,94 @@ if (new Boolean(null)) {
 
 #### 六、Number 对象
 
+##### 1、概述
+Number对象是数值对应的包装对象，可以作为构造函数使用，也可以作为工具函数使用，作为构造函数时，它用于生成值为数值的对象。
+```
+var n = new Number(1);
+typeof n // "object"
+```
++ 作为工具函数时，它可以将任何类型的值转为数值。
+```
+Number(true) // 1
+```
+##### 2、静态属性
+Number对象拥有以下一些静态属性（即直接定义在Number对象上的属性，而不是定义在实例上的属性）。
++ Number.POSITIVE_INFINITY：正的无限，指向Infinity。
++ Number.NEGATIVE_INFINITY：负的无限，指向-Infinity。
++ Number.NaN：表示非数值，指向NaN。
++ Number.MIN_VALUE：表示最小的正数（即最接近0的正数，在64位浮点数体系中为5e-324），相应的，最接近0的负数为-Number.MIN_VALUE。
++ Number.MAX_SAFE_INTEGER：表示能够精确表示的最大整数，即9007199254740991。
++ Number.MIN_SAFE_INTEGER：表示能够精确表示的最小整数，即-9007199254740991。
+
+##### 3、实例方法
++ 3.1 Number.prototype.toString()
+Number对象部署了自己的toString方法，用来将一个数值转为字符串形式。
+
++ toString方法可以接受一个参数，表示输出的进制。如果省略这个参数，默认将数值先转为十进制，再输出字符串；否则，就根据参数指定的进制，将一个数字转化成某个进制的字符串。
+```
+(10).toString(2) // "1010"
+(10).toString(8) // "12"
+(10).toString(16) // "a"
+```
+
++ 3.2 Number.prototype.toFixed()
+toFixed()方法先将一个数转为指定位数的小数，然后返回这个小数对应的字符串。
+```
+(10).toFixed(2) // "10.00"
+10.005.toFixed(2) // "10.01"
+```
+
++ 3.3 Number.prototype.toExponential()
+toExponential方法用于将一个数转为科学计数法形式。
+```
+(10).toExponential()  // "1e+1"
+(10).toExponential(1) // "1.0e+1"
+(10).toExponential(2) // "1.00e+1"
+
+(1234).toExponential()  // "1.234e+3"
+(1234).toExponential(1) // "1.2e+3"
+(1234).toExponential(2) // "1.23e+3"
+```
+
++ 3.4 Number.prototype.toPrecision()
+Number.prototype.toPrecision()方法用于将一个数转为指定位数的有效数字。
+```
+(12.34).toPrecision(1) // "1e+1"
+(12.34).toPrecision(2) // "12"
+(12.34).toPrecision(3) // "12.3"
+(12.34).toPrecision(4) // "12.34"
+(12.34).toPrecision(5) // "12.340"
+```
++ 该方法用于四舍五入时不太可靠，跟浮点数不是精确储存有关。
+```
+(12.35).toPrecision(3) // "12.3"
+(12.25).toPrecision(3) // "12.3"
+(12.15).toPrecision(3) // "12.2"
+(12.45).toPrecision(3) // "12.4"
+```
+
++ 3.5 Number.prototype.toLocaleString()
+Number.prototype.toLocaleString()方法接受一个地区码作为参数，返回一个字符串，表示当前数字在该地区的当地书写形式。
+```
+(123).toLocaleString('zh-Hans-CN-u-nu-hanidec')
+// "一二三"
+```
++ 该方法还可以接受第二个参数配置对象，用来定制指定用途的返回字符串。该对象的style属性指定输出样式，默认值是decimal，表示输出十进制形式。如果值为percent，表示输出百分数。
+```
+(123).toLocaleString('zh-Hans-CN', { style: 'percent' })
+// "12,300%"
+```
++ 如果style属性的值为currency，则可以搭配currency属性，输出指定格式的货币字符串形式。
+```
+(123).toLocaleString('zh-Hans-CN', { style: 'currency', currency: 'CNY' })
+// "￥123.00"
+
+(123).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })
+// "123,00 €"
+
+(123).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+// "$123.00"
+```
 #### 七、String 对象
 
 #### 八、Math 对象
