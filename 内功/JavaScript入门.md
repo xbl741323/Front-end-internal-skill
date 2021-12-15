@@ -2811,16 +2811,101 @@ var end = new Date();
 var elapsed = end - start;
 ```
 + 5.2 to 类方法
-+（1）Date.prototype.toString()
-toString方法返回一个完整的日期字符串。
++ （1）Date.prototype.toString()
++ toString方法返回一个完整的日期字符串。
 ```
 var d = new Date(2013, 0, 1);
-
 d.toString()
 // "Tue Jan 01 2013 00:00:00 GMT+0800 (CST)"
 d
 // "Tue Jan 01 2013 00:00:00 GMT+0800 (CST)"
 ```
++ 因为toString是默认的调用方法，所以如果直接读取Date实例，就相当于调用这个方法。
++ （2）Date.prototype.toUTCString()
++ toUTCString方法返回对应的 UTC 时间，也就是比北京时间晚8个小时。
+```
+var d = new Date(2013, 0, 1);
+d.toUTCString()
+// "Mon, 31 Dec 2012 16:00:00 GMT"
+```
++ （3）Date.prototype.toISOString()
++ toISOString方法返回对应时间的 ISO8601 写法。
+```
+var d = new Date(2013, 0, 1);
+d.toISOString()
+// "2012-12-31T16:00:00.000Z"
+```
++ （4）Date.prototype.toJSON()
++ toJSON方法返回一个符合 JSON 格式的 ISO 日期字符串，与toISOString方法的返回结果完全相同。
+```
+var d = new Date(2013, 0, 1);
+d.toJSON()
+// "2012-12-31T16:00:00.000Z"
+```
++ （5）Date.prototype.toDateString()
++ toDateString方法返回日期字符串（不含小时、分和秒）。
+```
+var d = new Date(2013, 0, 1);
+d.toDateString() // "Tue Jan 01 2013"
+```
++ （6）Date.prototype.toTimeString()
++ toTimeString方法返回时间字符串（不含年月日）。
+```
+var d = new Date(2013, 0, 1);
+d.toTimeString() // "00:00:00 GMT+0800 (CST)"
+```
++ （7）本地时间
++ 以下三种方法，可以将 Date 实例转为表示本地时间的字符串。
++ Date.prototype.toLocaleString()：完整的本地时间。
++ Date.prototype.toLocaleDateString()：本地日期（不含小时、分和秒）。
++ Date.prototype.toLocaleTimeString()：本地时间（不含年月日）。
+```
+var d = new Date(2013, 0, 1);
+
+d.toLocaleString()
+// 中文版浏览器为"2013年1月1日 上午12:00:00"
+// 英文版浏览器为"1/1/2013 12:00:00 AM"
+
+d.toLocaleDateString()
+// 中文版浏览器为"2013年1月1日"
+// 英文版浏览器为"1/1/2013"
+
+d.toLocaleTimeString()
+// 中文版浏览器为"上午12:00:00"
+// 英文版浏览器为"12:00:00 AM"
+```
++ 5.3 get 类方法
++ Date对象提供了一系列get*方法，用来获取实例对象某个方面的值。
++ getTime()：返回实例距离1970年1月1日00:00:00的毫秒数，等同于valueOf方法。
++ getDate()：返回实例对象对应每个月的几号（从1开始）。
++ getDay()：返回星期几，星期日为0，星期一为1，以此类推。
++ getFullYear()：返回四位的年份。
++ getMonth()：返回月份（0表示1月，11表示12月）。
++ getHours()：返回小时（0-23）。
++ getMilliseconds()：返回毫秒（0-999）。
++ getMinutes()：返回分钟（0-59）。
++ getSeconds()：返回秒（0-59）。
++ getTimezoneOffset()：返回当前时间与 UTC 的时区差异，以分钟表示，返回结果考虑到了夏令时因素。
++ 上面这些get*方法返回的都是当前时区的时间，Date对象还提供了这些方法对应的 UTC 版本，用来返回 UTC 时间。
++ getUTCDate()
++ getUTCFullYear()
++ getUTCMonth()
++ getUTCDay()
++ getUTCHours()
++ getUTCMinutes()
++ getUTCSeconds()
++ getUTCMilliseconds()
++ 5.4 set 类方法
++ Date对象提供了一系列set*方法，用来设置实例对象的各个方面。
++ setDate(date)：设置实例对象对应的每个月的几号（1-31），返回改变后毫秒时间戳。
++ setFullYear(year [, month, date])：设置四位年份。
++ setHours(hour [, min, sec, ms])：设置小时（0-23）。
++ setMilliseconds()：设置毫秒（0-999）。
++ setMinutes(min [, sec, ms])：设置分钟（0-59）。
++ setMonth(month [, date])：设置月份（0-11）。
++ setSeconds(sec [, ms])：设置秒（0-59）。
++ setTime(milliseconds)：设置毫秒时间戳。
+
 
 #### 十、RegExp 对象
 
