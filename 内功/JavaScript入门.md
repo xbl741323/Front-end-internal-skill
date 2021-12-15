@@ -2909,4 +2909,7 @@ d.toLocaleTimeString()
 
 #### 十、RegExp 对象
 
+##### 1、概述
+正则表达式（regular expression）是一种表达文本模式（即字符串结构）的方法，有点像字符串的模板，常常用来按照“给定模式”匹配文本。比如，正则表达式给出一个 Email 地址的模式，然后用它来确定一个字符串是否为 Email 地址。JavaScript 的正则表达式体系是参照 Perl 5 建立的。
+
 #### 十一、JSON 对象
