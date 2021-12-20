@@ -2930,7 +2930,7 @@ var regex = /xyz/i;
 
 ##### 2、实例属性
 + 2.1 正则对象的实例属性分成两类。
-+ 一类是修饰符相关，用于了解设置了什么修饰符。
+一类是修饰符相关，用于了解设置了什么修饰符。
 + RegExp.prototype.ignoreCase：返回一个布尔值，表示是否设置了i修饰符。
 + RegExp.prototype.global：返回一个布尔值，表示是否设置了g修饰符。
 + RegExp.prototype.multiline：返回一个布尔值，表示是否设置了m修饰符。
@@ -2956,6 +2956,31 @@ r.source // "abc"
 正则实例对象的test方法返回一个布尔值，表示当前模式是否能匹配参数字符串。
 ```
 /cat/.test('cats and dogs') // true
+```
++ 如果正则表达式带有g修饰符，则每一次test方法都从上一次结束的位置开始向后匹配。
+```
+var r = /x/g;
+var s = '_x_x';
+
+r.lastIndex // 0
+r.test(s) // true
+
+r.lastIndex // 2
+r.test(s) // true
+
+r.lastIndex // 4
+r.test(s) // false
+```
++ 带有g修饰符时，可以通过正则对象的lastIndex属性指定开始搜索的位置。
+```
+var r = /x/g;
+var s = '_x_x';
+
+r.lastIndex = 4;
+r.test(s) // false
+
+r.lastIndex // 0
+r.test(s)
 ```
 
 #### 十一、JSON 对象
