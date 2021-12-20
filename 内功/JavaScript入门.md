@@ -3034,4 +3034,22 @@ var r = /a/g;
 s.match(r) // ["a", "a"]
 r.exec(s) // ["a"]
 ```
++ 4.2 String.prototype.search()
+字符串对象的search方法，返回第一个满足条件的匹配结果在整个字符串中的位置。如果没有任何匹配，则返回-1。
+```
+'_x_x'.search(/x/)
+// 1
+```
++ 4.3 String.prototype.replace()
+字符串对象的replace方法可以替换匹配的值。它接受两个参数，第一个是正则表达式，表示搜索模式，第二个是替换的内容。
+```
+str.replace(search, replacement)
+```
++ 正则表达式如果不加g修饰符，就替换第一个匹配成功的值，否则替换所有匹配成功的值。
+```
+'aaa'.replace('a', 'b') // "baa"
+'aaa'.replace(/a/, 'b') // "baa"
+'aaa'.replace(/a/g, 'b') // "bbb"
+```
+
 #### 十一、JSON 对象
