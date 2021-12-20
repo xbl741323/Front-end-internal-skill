@@ -2982,5 +2982,32 @@ r.test(s) // false
 r.lastIndex // 0
 r.test(s)
 ```
++ 3.2 RegExp.prototype.exec()
+正则实例对象的exec()方法，用来返回匹配结果。如果发现匹配，就返回一个数组，成员是匹配成功的子字符串，否则返回null。
+```
+var s = '_x_x';
+var r1 = /x/;
+var r2 = /y/;
 
+r1.exec(s) // ["x"]
+r2.exec(s) // null
+```
++ 如果正则表示式包含圆括号（即含有“组匹配”），则返回的数组会包括多个成员。第一个成员是整个匹配成功的结果，后面的成员就是圆括号对应的匹配成功的组。
+```
+var s = '_x_x';
+var r = /_(x)/;
+r.exec(s) // ["_x", "x"]
+```
++ exec()方法的返回数组还包含以下两个属性：
+```
+input：整个原字符串。
+index：模式匹配成功的开始位置（从0开始计数）。
+
+var r = /a(b+)a/;
+var arr = r.exec('_abbba_aba_');
+arr // ["abbba", "bbb"]
+
+arr.index // 1
+arr.input // "_abbba_aba_"
+```
 #### 十一、JSON 对象
