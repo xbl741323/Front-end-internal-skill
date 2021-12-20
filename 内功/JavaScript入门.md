@@ -3010,4 +3010,28 @@ arr // ["abbba", "bbb"]
 arr.index // 1
 arr.input // "_abbba_aba_"
 ```
+##### 4、字符串的实例方法
+字符串的实例方法之中，有4种与正则表达式有关。
++ String.prototype.match()：返回一个数组，成员是所有匹配的子字符串。
++ String.prototype.search()：按照给定的正则表达式进行搜索，返回一个整数，表示匹配开始的位置。
++ String.prototype.replace()：按照给定的正则表达式进行替换，返回替换后的字符串。
++ String.prototype.split()：按照给定规则进行字符串分割，返回一个数组，包含分割后的各个成员。
++ 4.1 String.prototype.match()
+字符串实例对象的match方法对字符串进行正则匹配，返回匹配结果。
+```
+var s = '_x_x';
+var r1 = /x/;
+var r2 = /y/;
+
+s.match(r1) // ["x"]
+s.match(r2) // null
+```
++ 从上面代码可以看到，字符串的match方法与正则对象的exec方法非常类似：匹配成功返回一个数组，匹配失败返回null如果正则表达式带有g修饰符，则该方法与正则对象的exec方法行为不同，会一次性返回所有匹配成功的结果。
+```
+var s = 'abba';
+var r = /a/g;
+
+s.match(r) // ["a", "a"]
+r.exec(s) // ["a"]
+```
 #### 十一、JSON 对象
