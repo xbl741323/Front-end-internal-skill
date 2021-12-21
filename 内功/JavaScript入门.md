@@ -3145,4 +3145,24 @@ str.replace(search, replacement)
 \uhhhh 匹配一个以四位十六进制数（\u0000-\uFFFF）表示的 Unicode 字符。
 ```
 + 5.4 字符类 
++ 字符类（class）表示有一系列字符可供选择，只要匹配其中一个就可以了。所有可供选择的字符都放在方括号内，比如[xyz] 表示x、y、z之中任选一个匹配。
+```
+/[abc]/.test('hello world') // false
+/[abc]/.test('apple') // true
+```
++ 上面代码中，字符串hello world不包含a、b、c这三个字母中的任一个，所以返回false；字符串apple包含字母a，所以返回true。
++ （1）脱字符（^）
++ 如果方括号内的第一个字符是[^]，则表示除了字符类之中的字符，其他字符都可以匹配。比如，[^xyz]表示除了x、y、z之外都可以匹配。
+```
+/[^abc]/.test('bbc news') // true
+/[^abc]/.test('bbc') // false
+```
++ 如果方括号内没有其他字符，即只有[^]，就表示匹配一切字符，其中包括换行符。相比之下，点号作为元字符（.）是不包括换行符的。
+```
+var s = 'Please yes\nmake my day!';
+s.match(/yes.*day/) // null
+s.match(/yes[^]*day/) // [ 'yes\nmake my day']
+```
++ 上面代码中，字符串s含有一个换行符，点号不包括换行符，所以第一个正则表达式匹配失败；第二个正则表达式[^]包含一切字符，所以匹配成功。
++ 注意，脱字符只有在字符类的第一个位置才有特殊含义，否则就是字面含义。
 #### 十一、JSON 对象
