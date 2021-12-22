@@ -3430,7 +3430,11 @@ JSON.stringify('foo') === "\"foo\"" // true
 JSON.stringify(false) // "false"
 JSON.stringify('false') // "\"false\""
 ```
-+ JSON.stringify()方法会忽略对象的不可遍历的属性。
++ JSON.stringify()方法会忽略对象的不可遍历的属性。'
++ 正则对象会被转成空对象。
+```
+JSON.stringify(/foo/) // "{}"
+```
 + 3.2 第二个参数
 + JSON.stringify()方法还可以接受一个数组，作为第二个参数，指定参数对象的哪些属性需要转成字符串。
 ```
@@ -3465,3 +3469,126 @@ function f(key, value) {
 JSON.stringify({ a: 1, b: 2 }, f)
 // '{"a": 2,"b": 4}'
 ```
++ 3.3 第三个参数
++ JSON.stringify()还可以接受第三个参数，用于增加返回的 JSON 字符串的可读性。
++ 默认返回的是单行字符串，对于大型的 JSON 对象，可读性非常差。第三个参数使得每个属性单独占据一行，并且将每个属性前面添加指定的前缀（不超过10个字符）。
+```
+// 默认输出
+JSON.stringify({ p1: 1, p2: 2 })
+// '{"p1":1,"p2":2}'
+
+// 分行输出
+JSON.stringify({ p1: 1, p2: 2 }, null, '\t')
+// {
+// 	"p1": 1,
+// 	"p2": 2
+// }
+```
++ 上面例子中，第三个属性\t在每个属性前面添加一个制表符，然后分行显示。
++ 第三个属性如果是一个数字，则表示每个属性前面添加的空格（最多不超过10个）。
+```
+JSON.stringify({ p1: 1, p2: 2 }, null, 2);
+/*
+"{
+  "p1": 1,
+  "p2": 2
+}"
+*/
+```
++ 3.4 参数对象的toJSON()方法
++ 如果参数对象有自定义的toJSON()方法，那么JSON.stringify()会使用这个方法的返回值作为参数，而忽略原对象的其他属性。
++ 下面是一个普通的对象。
+```
+var user = {
+  firstName: '三',
+  lastName: '张',
+
+  get fullName(){
+    return this.lastName + this.firstName;
+  }
+};
+
+JSON.stringify(user)
+// "{"firstName":"三","lastName":"张","fullName":"张三"}"
+```
++ 现在，为这个对象加上toJSON()方法。
+```
+var user = {
+  firstName: '三',
+  lastName: '张',
+
+  get fullName(){
+    return this.lastName + this.firstName;
+  },
+
+  toJSON: function () {
+    return {
+      name: this.lastName + this.firstName
+    };
+  }
+};
+
+JSON.stringify(user)
+// "{"name":"张三"}"
+```
++ 上面代码中，JSON.stringify()发现参数对象有toJSON()方法，就直接使用这个方法的返回值作为参数，而忽略原对象的其他参数。
++ Date对象就有一个自己的toJSON()方法。
+```
+var date = new Date('2015-01-01');
+date.toJSON() // "2015-01-01T00:00:00.000Z"
+JSON.stringify(date) // ""2015-01-01T00:00:00.000Z""
+```
++ 上面代码中，JSON.stringify()发现处理的是Date对象实例，就会调用这个实例对象的toJSON()方法，将该方法的返回值作为参数。
++ toJSON()方法的一个应用是，将正则对象自动转为字符串。因为JSON.stringify()默认不能转换正则对象，但是设置了toJSON()方法以后，就可以转换正则对象了。
+```
+var obj = {
+  reg: /foo/
+};
+
+// 不设置 toJSON 方法时
+JSON.stringify(obj) // "{"reg":{}}"
+
+// 设置 toJSON 方法时
+RegExp.prototype.toJSON = RegExp.prototype.toString;
+JSON.stringify(/foo/) // ""/foo/""
+```
++ 上面代码在正则对象的原型上面部署了toJSON()方法，将其指向toString()方法，因此转换成 JSON 格式时，正则对象就先调用toJSON()方法转为字符串，然后再被JSON.stringify()方法处理。
++ 4、JSON.parse()
++ JSON.parse()方法用于将 JSON 字符串转换成对应的值。
+```
+JSON.parse('{}') // {}
+JSON.parse('true') // true
+JSON.parse('"foo"') // "foo"
+JSON.parse('[1, 5, "false"]') // [1, 5, "false"]
+JSON.parse('null') // null
+
+var o = JSON.parse('{"name": "张三"}');
+o.name // 张三
+```
++ 如果传入的字符串不是有效的 JSON 格式，JSON.parse()方法将报错。
+```
+JSON.parse("'String'") // illegal single quotes
+// SyntaxError: Unexpected token ILLEGAL
+```
++ 上面代码中，双引号字符串中是一个单引号字符串，因为单引号字符串不符合 JSON 格式，所以报错。
++ 为了处理解析错误，可以将JSON.parse()方法放在try...catch代码块中。
+```
+try {
+  JSON.parse("'String'");
+} catch(e) {
+  console.log('parsing error');
+}
+```
++ JSON.parse()方法可以接受一个处理函数，作为第二个参数，用法与JSON.stringify()方法类似。
+```
+function f(key, value) {
+  if (key === 'a') {
+    return value + 10;
+  }
+  return value;
+}
+
+JSON.parse('{"a": 1, "b": 2}', f)
+// {a: 11, b: 2}
+```
++ 上面代码中，JSON.parse()的第二个参数是一个函数，如果键名是a，该函数会将键值加上10。
