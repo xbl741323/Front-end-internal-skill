@@ -3553,7 +3553,7 @@ RegExp.prototype.toJSON = RegExp.prototype.toString;
 JSON.stringify(/foo/) // ""/foo/""
 ```
 + 上面代码在正则对象的原型上面部署了toJSON()方法，将其指向toString()方法，因此转换成 JSON 格式时，正则对象就先调用toJSON()方法转为字符串，然后再被JSON.stringify()方法处理。
-+ 4、JSON.parse()
+##### 4、JSON.parse()
 + JSON.parse()方法用于将 JSON 字符串转换成对应的值。
 ```
 JSON.parse('{}') // {}
