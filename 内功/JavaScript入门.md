@@ -231,7 +231,7 @@ for (var i in obj) {
   console.log('键值：', obj[i]);
 }
 ```
-+ JavaScript 中 call()、apply()、bind()都是用来重定义 this 这个对象的（修改this指向）！
++ JavaScript 中 call()、apply()、bind()都是用来重定义 this 这个对象的（修改函数内部this的指向）！
 ```
 var name = "神里",age = 16;
 var obj = {
