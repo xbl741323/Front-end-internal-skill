@@ -4079,6 +4079,92 @@ function Sub(value) {
   this.prop = value;
 }
 ```
++ 上面代码中，Sub是子类的构造函数，this是子类的实例。在实例上调用父类的构造函数Super，就会让子类实例具有父类实例的属性。
++ 第二步，是让子类的原型指向父类的原型，这样子类就可以继承父类原型。
+```
+Sub.prototype = Object.create(Super.prototype);
+Sub.prototype.constructor = Sub;
+Sub.prototype.method = '...';
+```
++ 上面代码中，Sub.prototype是子类的原型，要将它赋值为Object.create(Super.prototype)，而不是直接等于Super.prototype。否则后面两行对Sub.prototype的操作，会连父类的原型Super.prototype一起修改掉。
++ 另外一种写法是Sub.prototype等于一个父类实例。
+```
+Sub.prototype = new Super();
+```
++ 上面这种写法也有继承的效果，但是子类会具有父类实例的方法。有时，这可能不是我们需要的，所以不推荐使用这种写法。
++ 举例来说，下面是一个Shape构造函数。
+```
+function Shape() {
+  this.x = 0;
+  this.y = 0;
+}
+
+Shape.prototype.move = function (x, y) {
+  this.x += x;
+  this.y += y;
+  console.info('Shape moved.');
+};
+```
++ 我们需要让Rectangle构造函数继承Shape。
+```
+// 第一步，子类继承父类的实例
+function Rectangle() {
+  Shape.call(this); // 调用父类构造函数
+}
+// 另一种写法
+function Rectangle() {
+  this.base = Shape;
+  this.base();
+}
+
+// 第二步，子类继承父类的原型
+Rectangle.prototype = Object.create(Shape.prototype);
+Rectangle.prototype.constructor = Rectangle;
+```
++ 采用这样的写法以后，instanceof运算符会对子类和父类的构造函数，都返回true。
+```
+var rect = new Rectangle();
+rect instanceof Rectangle  // true
+rect instanceof Shape  // true
+```
++ 上面代码中，子类是整体继承父类。有时只需要单个方法的继承，这时可以采用下面的写法。
+```
+ClassB.prototype.print = function() {
+  ClassA.prototype.print.call(this);
+  // some code
+}
+```
++ 上面代码中，子类B的print方法先调用父类A的print方法，再部署自己的代码。这就等于继承了父类A的print方法。
+
+##### 4、多重继承 
++ JavaScript 不提供多重继承功能，即不允许一个对象同时继承多个对象。但是，可以通过变通方法，实现这个功能。
+```
+function M1() {
+  this.hello = 'hello';
+}
+
+function M2() {
+  this.world = 'world';
+}
+
+function S() {
+  M1.call(this);
+  M2.call(this);
+}
+
+// 继承 M1
+S.prototype = Object.create(M1.prototype);
+// 继承链上加入 M2
+Object.assign(S.prototype, M2.prototype);
+
+// 指定构造函数
+S.prototype.constructor = S;
+
+var s = new S();
+s.hello // 'hello'
+s.world // 'world'
+```
++ 上面代码中，子类S同时继承了父类M1和M2。这种模式又称为 Mixin（混入）。
 
 #### 4、 Object 对象的相关方法
 
