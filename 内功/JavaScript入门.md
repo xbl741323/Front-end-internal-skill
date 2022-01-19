@@ -4040,6 +4040,26 @@ d instanceof Date // true
 d instanceof Object // true
 ```
 + 上面代码中，d同时是Date和Object的实例，因此对这两个构造函数都返回true。
++ 由于任意对象（除了null）都是Object的实例，所以instanceof运算符可以判断一个值是否为非null的对象。
+```
+var obj = { foo: 123 };
+obj instanceof Object // true
+null instanceof Object // false
+```
++ 上面代码中，除了null，其他对象的instanceOf Object的运算结果都是true。
++ instanceof的原理是检查右边构造函数的prototype属性，是否在左边对象的原型链上。有一种特殊情况，就是左边对象的原型链上，只有null对象。这时，instanceof判断会失真。
+```
+var obj = Object.create(null);
+typeof obj // "object"
+obj instanceof Object // false
+```
++ instanceof运算符的一个用处，是判断值的类型。
+```
+var x = [1, 2, 3];
+var y = {};
+x instanceof Array // true
+y instanceof Object // true
+```
 
 #### 4、 Object 对象的相关方法
 
