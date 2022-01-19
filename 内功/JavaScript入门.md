@@ -4060,6 +4060,25 @@ var y = {};
 x instanceof Array // true
 y instanceof Object // true
 ```
++ 注意，instanceof运算符只能用于对象，不适用原始类型的值。
+```
+var s = 'hello';
+s instanceof String // false
+```
++ 上面代码中，字符串不是String对象的实例（因为字符串不是对象），所以返回false。
++ 此外，对于undefined和null，instanceof运算符总是返回false。
+```
+undefined instanceof Object // false
+null instanceof Object // false
+```
+##### 3、构造函数的继承
++ 让一个构造函数继承另一个构造函数，是非常常见的需求。这可以分成两步实现。第一步是在子类的构造函数中，调用父类的构造函数。
+```
+function Sub(value) {
+  Super.call(this);
+  this.prop = value;
+}
+```
 
 #### 4、 Object 对象的相关方法
 
