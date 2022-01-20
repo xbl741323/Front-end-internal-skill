@@ -4167,5 +4167,7 @@ s.world // 'world'
 + 上面代码中，子类S同时继承了父类M1和M2。这种模式又称为 Mixin（混入）。
 
 #### 4、 Object 对象的相关方法
+JavaScript 在Object对象上面，提供了很多相关方法，处理面向对象编程的相关操作。下面介绍这些方法。
+##### 1、Object.getPrototypeOf()
 
 #### 5、 严格模式
