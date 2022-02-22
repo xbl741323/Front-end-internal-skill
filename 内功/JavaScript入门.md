@@ -4515,5 +4515,33 @@ function f1() {
 + 事件完全可以理解成“信号”，如果存在一个“信号中心”，某个任务执行完成，就向信号中心“发布”（publish）一个信号，其他任务可以向信号中心“订阅”（subscribe）这个信号，从而知道什么时候自己可以开始执行。这就叫做”发布/订阅模式”（publish-subscribe pattern），又称“观察者模式”（observer pattern）。
 
 #### 2、定时器
+##### 2.1、setTimeout() 
+setTimeout函数用来指定某个函数或某段代码，在多少毫秒之后执行。它返回一个整数，表示定时器的编号，以后可以用来取消这个定时器。
+```
+var timerId = setTimeout(func|code, delay);
+```
++ 上面代码中，setTimeout函数接受两个参数，第一个参数func|code是将要推迟执行的函数名或者一段代码，第二个参数delay是推迟执行的毫秒数。
+```
+console.log(1);
+setTimeout('console.log(2)',1000);
+console.log(3);
+// 1
+// 3
+// 2
+```
++ 上面代码会先输出1和3，然后等待1000毫秒再输出2。注意，console.log(2)必须以字符串的形式，作为setTimeout的参数。
++ 如果推迟执行的是函数，就直接将函数名，作为setTimeout的参数。
+```
+function f() {
+  console.log(2);
+}
+setTimeout(f, 1000);
+```
++ setTimeout的第二个参数如果省略，则默认为0。
+```
+setTimeout(f)
+// 等同于
+setTimeout(f, 0)
+```
 
 #### 3、Promise对象
