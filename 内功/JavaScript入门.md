@@ -4915,6 +4915,36 @@ document
 + 3、同级节点关系（sibling）：拥有同一个父节点的节点
 + DOM 提供操作接口，用来获取这三种关系的节点。比如，子节点接口包括firstChild（第一个子节点）和lastChild（最后一个子节点）等属性，同级节点接口包括nextSibling（紧邻在后的那个同级节点）和previousSibling（紧邻在前的那个同级节点）属性。
 
+#### 2、Node 接口
+##### 2.1、属性
++ 1、Node.prototype.nodeType
++ nodeType属性返回一个整数值，表示节点的类型。
+```
+document.nodeType // 9
+```
++ 上面代码中，文档节点的类型值为9。
++ Node 对象定义了几个常量，对应这些类型值。
+```
+document.nodeType === Node.DOCUMENT_NODE // true
+```
++ 上面代码中，文档节点的nodeType属性等于常量Node.DOCUMENT_NODE。
++ 不同节点的nodeType属性值和对应的常量如下。
++ 1、文档节点（document）：9，对应常量Node.DOCUMENT_NODE
++ 2、元素节点（element）：1，对应常量Node.ELEMENT_NODE
++ 3、属性节点（attr）：2，对应常量Node.ATTRIBUTE_NODE
++ 4、文本节点（text）：3，对应常量Node.TEXT_NODE
++ 5、文档片断节点（DocumentFragment）：11，对应常量Node.DOCUMENT_FRAGMENT_NODE
++ 6、文档类型节点（DocumentType）：10，对应常量Node.DOCUMENT_TYPE_NODE
++ 7、注释节点（Comment）：8，对应常量Node.COMMENT_NODE
++ 确定节点类型时，使用nodeType属性是常用方法。
+```
+var node = document.documentElement.firstChild;
+if (node.nodeType === Node.ELEMENT_NODE) {
+  console.log('该节点是元素节点');
+}
+```
+
+##### 2.2、方法
 
 
 
